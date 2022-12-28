@@ -7,11 +7,11 @@ const client = new Client({
 	database: process.env.DATABASE,
 	port: process.env.PGPORT,
 })
-
-async function connectDB() {
+const connectDB = async () => {
 	try {
-		await client.connect()
+		client.connect()
 		console.log("Connected to database...\n")
+		// const client = await pool.connect()
 	} catch (err) {
 		console.log(err)
 	}
