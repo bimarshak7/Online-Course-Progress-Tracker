@@ -1,6 +1,6 @@
 const fs = require("fs")
 const { Client } = require("pg")
-const { exit } = require("process")
+
 // const { client } = require("./connect")
 require("dotenv").config({ path: "../.env" })
 
@@ -18,7 +18,7 @@ async function initDB() {
 	await client.query(sql)
 	console.log("Database Initialized")
 
-	exit()
+	process.exit()
 }
 
 initDB()
