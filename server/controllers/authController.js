@@ -2,7 +2,6 @@ const { client } = require("../db/connect")
 const bcrypt = require("bcrypt")
 
 const { generateToken } = require("../utils/jwt")
-const { use } = require("../routes/auth")
 
 const register = async (req, res) => {
 	const { name, email, password } = req.body
@@ -48,7 +47,6 @@ const register = async (req, res) => {
 const login = async (req, res) => {
 	const { email, password } = req.body
 	if (!email || !password) {
-		// console.log(req)
 		return res.status(500).json({ error: "Missing one or more field." })
 	}
 	let user = await client

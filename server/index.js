@@ -1,8 +1,11 @@
 const express = require("express")
+const cookieParser = require("cookie-parser")
+require("dotenv").config()
+
 const app = express()
 
-require("dotenv").config()
 const authRouter = require("./routes/auth.js")
+const courseRouter = require("./routes/course")
 
 const { connectDB } = require("./db/connect")
 
@@ -17,12 +20,14 @@ app.use(
 		extended: true,
 	})
 )
+app.use(cookieParser())
 
 app.get("/", (req, res) => {
 	res.send("Welcome!")
 })
 
 app.use("/api/auth", authRouter)
+app.use("/api/course", courseRouter)
 
 const port = process.env.PORT || 5000
 
