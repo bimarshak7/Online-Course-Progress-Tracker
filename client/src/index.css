@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+	margin: 1rem 1rem 0 1rem;
+	background-color: rgb(2, 3, 20);
+	color: white;
+}

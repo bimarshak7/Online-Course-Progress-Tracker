@@ -1,0 +1,3 @@
+.center-xy {
+	@apply flex items-center justify-center h-screen;
+}
