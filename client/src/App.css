@@ -21,17 +21,13 @@
 .alert {
 	@apply fixed md:w-1/4 w-2/3 z-[100] rounded border px-4 py-2 text-center opacity-95 drop-shadow-lg;
 	top: 8%;
-	animation: alertSlide 0.1s ease-out;
+	animation: alertSlide 0.2s ease-out;
 }
 
 @keyframes alertSlide {
 	0% {
-		top: 4%;
-		opacity: 0%;
-	}
-	50% {
 		top: 6%;
-		opacity: 30%;
+		opacity: 0%;
 	}
 	100% {
 		top: 8%;

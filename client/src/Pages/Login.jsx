@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 
 import { Logo, FormText, Alert } from "../Components"
-import { displayAlert } from "../redux/reducers/misc"
+import { setAlert } from "../redux/actions/misc"
 
 const initialState = {
 	email: "",
@@ -20,13 +20,11 @@ const Login = ({ register }) => {
 		setValues({ ...values, [e.target.name]: e.target.value })
 	}
 	const onSubmit = () => {
-		dispatch(
-			displayAlert({ alertMsg: "Missing Field", alertType: "danger" })
-		)
+		dispatch(setAlert("Missing Field", "danger"))
 	}
 	return (
 		<div className="center-xy">
-			{misc.showAlert && <Alert float={false} />}
+			{misc.showAlert && <Alert />}
 			<div className="box1">
 				<div className="flex">
 					<Logo />

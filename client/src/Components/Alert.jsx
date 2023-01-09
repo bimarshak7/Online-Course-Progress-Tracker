@@ -2,7 +2,7 @@ import React from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { clearAlert, displayAlert } from "../redux/reducers/misc"
 
-const Alert = ({ float = true }) => {
+const Alert = () => {
 	const { alertMsg, alertType } = useSelector(state => state.misc)
 	const dispatch = useDispatch()
 	return (
