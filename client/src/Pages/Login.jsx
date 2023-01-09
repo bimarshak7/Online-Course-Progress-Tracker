@@ -1,7 +1,9 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
 
-import { Logo, FormText } from "../Components"
+import { Logo, FormText, Alert } from "../Components"
+import { displayAlert } from "../redux/reducers/misc"
 
 const initialState = {
 	email: "",
@@ -11,13 +13,20 @@ const initialState = {
 
 const Login = ({ register }) => {
 	const [values, setValues] = useState(initialState)
+	const misc = useSelector(state => state.misc)
+	const dispatch = useDispatch()
 
 	const handleChange = e => {
 		setValues({ ...values, [e.target.name]: e.target.value })
 	}
-
+	const onSubmit = () => {
+		dispatch(
+			displayAlert({ alertMsg: "Missing Field", alertType: "danger" })
+		)
+	}
 	return (
 		<div className="center-xy">
+			{misc.showAlert && <Alert float={false} />}
 			<div className="box1">
 				<div className="flex">
 					<Logo />
@@ -55,7 +64,7 @@ const Login = ({ register }) => {
 						handleChange={handleChange}
 					/>
 				)}
-				<button className="button button1">
+				<button className="button button1" onClick={onSubmit}>
 					{register ? "Register" : "Login"}
 				</button>
 
