@@ -1,17 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 
-export const login = createAsyncThunk(
+import { setAlert } from "./misc"
+
+export const registerAc = createAsyncThunk(
 	"auth/login",
-	async ({ email, password1 }, dispatch) => {
+	async ({ name, email, password1, password2 }, { dispatch }) => {
+		console.log("Here")
 		const response = await axios
-			.get(
-				`/api/article/list?category=${cat}&page=${page}&items=${items}`,
-				{
-					withCredentials: true,
-				}
-			)
+			.post(`/api/auth/register`, {
+				name: name,
+				email: email,
+				password: password1,
+			})
 			.then(res => {
+				dispatch(setAlert("Account created!", "success", true))
 				return res.data
 			})
 			.catch(err => {
@@ -19,6 +22,6 @@ export const login = createAsyncThunk(
 			})
 
 		if (!response) return { success: false }
-		return { success: true, data: response, page: page, cat: cat }
+		return { success: true, data: response }
 	}
 )

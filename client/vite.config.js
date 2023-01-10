@@ -16,7 +16,7 @@ export default ({ mode }) => {
 				"/api": {
 					target: `http://${
 						process.env.BACKEND_HOST || "localhost"
-					}:${process.env.BACKEND_PORT || 4000}`,
+					}:${process.env.BACKEND_PORT || 3000}`,
 				},
 			},
 		},

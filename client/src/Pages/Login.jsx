@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { Logo, FormText, Alert } from "../Components"
 import { setAlert } from "../redux/actions/misc"
+import { registerAc } from "../redux/actions/auth"
 
 const initialState = {
 	name: "",
@@ -27,6 +28,7 @@ const Login = ({ register }) => {
 		if (!email || !password1 || !(!register || (password2 && name))) {
 			dispatch(setAlert("One or more field missing!!", "danger", true))
 		}
+		if (register) dispatch(registerAc(values))
 	}
 	return (
 		<div className="center-xy">
