@@ -15,7 +15,6 @@ const initialState = {
 
 const Login = ({ register }) => {
 	const [values, setValues] = useState(initialState)
-	const misc = useSelector(state => state.misc)
 	const dispatch = useDispatch()
 
 	const handleChange = e => {
@@ -32,7 +31,6 @@ const Login = ({ register }) => {
 	}
 	return (
 		<div className="center-xy">
-			{misc.showAlert && <Alert />}
 			<div className="box1">
 				<div className="flex">
 					<Logo />
