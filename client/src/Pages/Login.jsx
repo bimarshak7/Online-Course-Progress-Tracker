@@ -6,8 +6,9 @@ import { Logo, FormText, Alert } from "../Components"
 import { setAlert } from "../redux/actions/misc"
 
 const initialState = {
+	name: "",
 	email: "",
-	password: "",
+	password1: "",
 	password2: "",
 }
 
@@ -19,8 +20,13 @@ const Login = ({ register }) => {
 	const handleChange = e => {
 		setValues({ ...values, [e.target.name]: e.target.value })
 	}
-	const onSubmit = () => {
-		dispatch(setAlert("Missing Field", "danger"))
+
+	const onSubmit = e => {
+		e.preventDefault()
+		let { email, password1, password2, name } = values
+		if (!email || !password1 || !(!register || (password2 && name))) {
+			dispatch(setAlert("One or more field missing!!", "danger", true))
+		}
 	}
 	return (
 		<div className="center-xy">
@@ -29,7 +35,7 @@ const Login = ({ register }) => {
 				<div className="flex">
 					<Logo />
 					<div className="flex flex-col ml-4 md:gap-2">
-						<h1 className="text-lg md:text-2xl font-semibold leading-6">
+						<h1 className="text-lg md:text-2xl font-semibold">
 							Online Course Progress Tracker
 						</h1>
 						<h1 className="text-2xl md:text-3xl font-bold">
@@ -37,35 +43,44 @@ const Login = ({ register }) => {
 						</h1>
 					</div>
 				</div>
-				<div className="form m-2"></div>
-				<FormText
-					type={"text"}
-					name={"email"}
-					value={values.email}
-					labelText={"Email"}
-					handleChange={handleChange}
-				/>
-
-				<FormText
-					name="password"
-					type="password"
-					labelText="Password"
-					value={values.password}
-					handleChange={handleChange}
-				/>
-				{register && (
+				<form onSubmit={onSubmit} className="flex flex-col mx-4 mt-4">
+					{register && (
+						<FormText
+							name="name"
+							type="text"
+							labelText="Full Name"
+							value={values.name}
+							handleChange={handleChange}
+						/>
+					)}
 					<FormText
-						name="password2"
-						type="password"
-						labelText="Confirm Password"
-						value={values.password2}
+						type={"email"}
+						name={"email"}
+						value={values.email}
+						labelText={"Email"}
 						handleChange={handleChange}
 					/>
-				)}
-				<button className="button button1" onClick={onSubmit}>
-					{register ? "Register" : "Login"}
-				</button>
 
+					<FormText
+						name="password1"
+						type="password"
+						labelText="Password"
+						value={values.password1}
+						handleChange={handleChange}
+					/>
+					{register && (
+						<FormText
+							name="password2"
+							type="password"
+							labelText="Confirm Password"
+							value={values.password2}
+							handleChange={handleChange}
+						/>
+					)}
+					<button className="button button1 bg-red-600" type="submit">
+						{register ? "Register" : "Login"}
+					</button>
+				</form>
 				<span className="mt-2 text-center">
 					{register ? "Already have an account?" : "New here?"}
 					<Link

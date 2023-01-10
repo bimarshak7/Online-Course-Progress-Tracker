@@ -9,7 +9,7 @@
 }
 
 .button1 {
-	@apply bg-red-600 lg:w-40 lg:mx-auto font-bold;
+	@apply bg-red-600 w-3/4 lg:w-48 mx-auto font-bold;
 }
 
 .alert-danger {
@@ -19,18 +19,18 @@
 	background: #0f5132;
 }
 .alert {
-	@apply fixed md:w-1/4 w-2/3 z-[100] rounded border px-4 py-2 text-center opacity-95 drop-shadow-lg;
-	top: 8%;
+	@apply fixed md:w-1/4 min-w-fit z-[100] rounded border px-4 py-2 text-center opacity-95 drop-shadow-lg;
+	top: 6%;
 	animation: alertSlide 0.2s ease-out;
 }
 
 @keyframes alertSlide {
 	0% {
-		top: 6%;
+		top: 2%;
 		opacity: 0%;
 	}
 	100% {
-		top: 8%;
+		top: 6%;
 		opacity: 95%;
 	}
 }
