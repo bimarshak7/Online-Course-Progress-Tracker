@@ -62,9 +62,18 @@ const login = async (req, res) => {
 	if (val) {
 		const token = generateToken({ id: user[0].id }, "2d")
 		res.cookie("token", token, { httpOnly: true })
-		return res.status(200).json({ message: "Login Sucessful." })
+		return res.status(200).json({ message: "Login Sucessful !" })
 	}
 	return res.status(401).json({ error: "Invalid Credentials" })
 }
 
-module.exports = { register, login }
+const verify = async (req, res) => {
+	return res.status(200).json({ message: "Login Sucessful !" })
+}
+
+const logout = async (req, res) => {
+	res.clearCookie("token")
+	return res.status(200).json({ message: "Logout Sucessful !" })
+}
+
+module.exports = { register, login, verify, logout }
