@@ -15,7 +15,7 @@ const Alert = () => {
 			>
 				X
 			</span>
-			<span className="block sm:inline">{alertMsg}</span>
+			<span className="w-full mx-auto">{alertMsg}</span>
 		</div>
 	)
 }

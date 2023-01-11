@@ -39,11 +39,46 @@ export const login = createAsyncThunk(
 				return res.data
 			})
 			.catch(err => {
-				// console.error(err.response.data.error)
-				dispatch(setAlert(err.response.data.error, "danger", true))
+				console.error(err.response)
+				dispatch(
+					setAlert(
+						err.response.data.error ||
+							"Something Went Wrong ! Try again later",
+						"danger",
+						true
+					)
+				)
 			})
 
-		if (!response) return { success: false }
-		return { success: true, data: response }
+		if (!response) return { isAuthenticated: false }
+		return { isAuthenticated: true }
+	}
+)
+
+export const verify = createAsyncThunk(
+	"auth/verfiy",
+	async (alert, { dispatch }) => {
+		const response = await axios
+			.get("/api/auth/verify", {
+				withCredentials: true,
+			})
+			.then(res => {
+				dispatch(setAlert(res.data.message ?? "Logged in", "success"))
+				return res.data
+			})
+			.catch(err => {
+				if (alert)
+					dispatch(
+						setAlert(
+							err.response?.data?.message ?? "Not logged in",
+							"danger"
+						)
+					)
+				return false
+			})
+
+		if (response) return { isAuthenticated: true, user: response.user }
+
+		return { isAuthenticated: false, user: "" }
 	}
 )

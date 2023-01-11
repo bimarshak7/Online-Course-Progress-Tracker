@@ -4,7 +4,7 @@ import { useSelector } from "react-redux"
 
 import { store } from "./redux/store"
 import { Home, Login } from "./Pages"
-import { Alert } from "./Components"
+import { Alert, PrivateRoute } from "./Components"
 import "./App.css"
 
 function App() {
@@ -21,7 +21,14 @@ function App() {
 						path="/register"
 						element={<Login register={true} />}
 					/>
-					<Route path="/home" element={<Home />} />
+					<Route
+						path="/home"
+						element={
+							<PrivateRoute>
+								<Home />
+							</PrivateRoute>
+						}
+					/>
 				</Routes>
 			</div>
 		</Router>
