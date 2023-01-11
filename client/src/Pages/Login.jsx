@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
-import { Logo, FormText, Alert } from "../Components"
+import { Logo, FormText } from "../Components"
 import { setAlert } from "../redux/actions/misc"
-import { registerAc } from "../redux/actions/auth"
+import { login, registerAc } from "../redux/actions/auth"
 
 const initialState = {
 	name: "",
@@ -25,9 +25,15 @@ const Login = ({ register }) => {
 		e.preventDefault()
 		let { email, password1, password2, name } = values
 		if (!email || !password1 || !(!register || (password2 && name))) {
-			dispatch(setAlert("One or more field missing!!", "danger", true))
+			dispatch(setAlert("One or more field missing!!", "danger"))
+			return
+		}
+		if (register && password1 !== password2) {
+			dispatch(setAlert("Password didn't match!!", "danger"))
+			return
 		}
 		if (register) dispatch(registerAc(values))
+		dispatch(login(values))
 	}
 	return (
 		<div className="center-xy">
