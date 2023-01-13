@@ -7,7 +7,7 @@ const verifyAuth = (req, res, next) => {
 		// console.log(req.sess)
 		return next()
 	} catch {
-		return res.status(401).json({ error: "You must login first !" })
+		return res.status(401).json({ error: "You must login to continue !" })
 	}
 }
 

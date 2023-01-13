@@ -20,7 +20,6 @@ const Login = ({ register }) => {
 
 	useEffect(() => {
 		dispatch(verify(false))
-		console.log("useEffect")
 	}, [isAuthenticated])
 
 	if (isAuthenticated && !verifying) {
@@ -46,18 +45,13 @@ const Login = ({ register }) => {
 		dispatch(login(values))
 	}
 	return (
-		<div className="center-xy">
+		<div className="center-xy p-6 md:p-0">
 			<div className="box1">
-				<div className="flex">
-					<Logo />
-					<div className="flex flex-col ml-4 md:gap-2">
-						<h1 className="text-lg md:text-2xl font-semibold">
-							Online Course Progress Tracker
-						</h1>
-						<h1 className="text-2xl md:text-3xl font-bold">
-							{register ? "Register" : "Login"}
-						</h1>
-					</div>
+				<div className="flex flex-col ml-4 md:gap-2">
+					<Logo small={false} full={true} />
+					<h1 className="text-2xl md:text-3xl font-bold text-center py-2">
+						{register ? "Register" : "Login"}
+					</h1>
 				</div>
 				<form onSubmit={onSubmit} className="flex flex-col mx-4 mt-4">
 					{register && (

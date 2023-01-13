@@ -9,7 +9,7 @@ const client = new Client({
 })
 const connectDB = async () => {
 	try {
-		client.connect()
+		await client.connect()
 		console.log("Connected to database...\n")
 		// const client = await pool.connect()
 	} catch (err) {

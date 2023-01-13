@@ -20,8 +20,6 @@ const authSlice = createSlice({
 			state.verifying = true
 		})
 		builder.addCase(verify.fulfilled, (state, { payload }) => {
-			console.log("lol")
-			console.log("Hya pugyo ", payload)
 			state.isAuthenticated = payload.isAuthenticated
 			state.verifying = false
 		})

@@ -67,13 +67,15 @@ export const verify = createAsyncThunk(
 				return res.data
 			})
 			.catch(err => {
-				if (alert)
+				if (alert) {
 					dispatch(
 						setAlert(
-							err.response?.data?.message ?? "Not logged in",
+							err.response?.data?.error ||
+								"You must login to continue !",
 							"danger"
 						)
 					)
+				}
 				return false
 			})
 

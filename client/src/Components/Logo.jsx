@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom"
 
-const Logo = () => {
+const Logo = ({ small }) => {
 	return (
 		<Link to={"/"}>
 			<img
-				src="/src/assets/logo.png"
-				className="h-20 w-20 md:h-24 md:w-24"
+				src={
+					small
+						? "/src/assets/logoSmall.png"
+						: "/src/assets/logoFull.png"
+				}
+				className={`${small ? "w-40 h-10" : "h-min w-min"} `}
 			/>
 		</Link>
 	)
