@@ -17,7 +17,7 @@ const NavBar = () => {
 				<div className="flex rounded-lg bg-bg1 py-1">
 					<AiOutlineSearch className="text-3xl pl-1" />
 					<input
-						className="bg-bg1 px-4 rounded-md"
+						className="bg-bg1 px-4 rounded-md outline-none"
 						placeholder="Search Coursdo"
 					/>
 				</div>

@@ -7,8 +7,8 @@ const addCourse = async (req, res) => {
 	}
 	try {
 		client.query(
-			"INSERT INTO courses (name, chapters,category,owner) VALUES ($1, $2, $3, $4)",
-			[name, chapters, category, req.sess.id],
+			"INSERT INTO courses (name, chapters,category,puid) VALUES (?, ?, ?, ?)",
+			[name, chapters, category, req.sess.puid],
 			(error, results) => {
 				if (error) {
 					return res
@@ -33,7 +33,7 @@ const deleteCourse = async (req, res) => {
 	}
 	try {
 		client.query(
-			"DELETE FROM courses WHERE id=$1",
+			"DELETE FROM courses WHERE id=?",
 			[id],
 			(error, results) => {
 				if (error) {
@@ -55,7 +55,7 @@ const listCourse = async (req, res) => {
 	console.log(req.sess.id)
 	try {
 		let courses = client.query(
-			"SELECT * FROM courses WHERE owner=$1",
+			"SELECT * FROM courses WHERE owner=?",
 			[req.sess.id],
 			(error, results) => {
 				if (error) {

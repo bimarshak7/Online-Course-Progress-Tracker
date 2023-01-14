@@ -1,19 +1,23 @@
-const { Client } = require("pg")
+const mysql = require("mysql2")
 
-const client = new Client({
-	user: process.env.PGUSER,
-	password: process.env.PGPASSWORD,
-	host: process.env.PGHOST,
-	database: process.env.DATABASE,
-	port: process.env.PGPORT,
+const client = mysql.createConnection({
+	user: process.env.DBUSER,
+	password: process.env.DBPASSWORD,
+	host: process.env.DBHOST,
+	database: process.env.DBNAME,
+	port: process.env.DBPORT,
 })
+
 const connectDB = async () => {
-	try {
-		await client.connect()
-		console.log("Connected to database...\n")
-		// const client = await pool.connect()
-	} catch (err) {
-		console.log(err)
+	if (client.state != "connected") {
+		client.connect(function (err) {
+			if (err) {
+				console.error("error connecting:" + err.stack)
+				return
+			}
+			console.log("Connected to db with id " + client.threadId)
+			// console.log(client.state)
+		})
 	}
 }
 

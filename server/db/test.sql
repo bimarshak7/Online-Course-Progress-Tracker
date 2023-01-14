@@ -1,0 +1,17 @@
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS courses;
+
+CREATE TABLE IF NOT EXISTS users(
+    id SERIAL,
+    puid VARCHAR(36) NOT NULL DEFAULT UUID(),
+
+    PRIMARY KEY(puid)
+);
+
+CREATE TABLE courses(
+    id SERIAL,
+    pcid BINARY(16) NOT NULL DEFAULT UUID(),
+    user VARCHAR(36),
+    PRIMARY KEY(pcid),
+    FOREIGN KEY (user) REFERENCES users(puid)
+); 
