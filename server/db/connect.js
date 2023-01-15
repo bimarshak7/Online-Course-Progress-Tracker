@@ -12,10 +12,9 @@ const connectDB = async () => {
 	if (client.state != "connected") {
 		client.connect(function (err) {
 			if (err) {
-				console.error("error connecting:" + err.stack)
+				console.error("Could not connect to database:: " + err)
 				return
-			}
-			console.log("Connected to db with id " + client.threadId)
+			} else console.log("Connected to db with id " + client.threadId)
 			// console.log(client.state)
 		})
 	}

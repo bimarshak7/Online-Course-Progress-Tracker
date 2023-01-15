@@ -2,8 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { Provider } from "react-redux"
 import { useSelector } from "react-redux"
 
-import { store } from "./redux/store"
-import { Home, Login } from "./Pages"
+import { Home, Login, Feed } from "./Pages"
 import { Alert, PrivateRoute } from "./Components"
 import "./App.css"
 
@@ -26,6 +25,14 @@ function App() {
 						element={
 							<PrivateRoute>
 								<Home />
+							</PrivateRoute>
+						}
+					/>
+					<Route
+						path="/feed"
+						element={
+							<PrivateRoute>
+								<Feed />
 							</PrivateRoute>
 						}
 					/>

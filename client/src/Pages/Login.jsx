@@ -19,7 +19,7 @@ const Login = ({ register }) => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		dispatch(verify(false))
+		if (!isAuthenticated && !verifying) dispatch(verify(false))
 	}, [isAuthenticated])
 
 	if (isAuthenticated && !verifying) {

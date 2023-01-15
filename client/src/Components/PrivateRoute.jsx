@@ -10,7 +10,7 @@ const PrivateRoute = ({ children }) => {
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		dispatch(verify(true))
+		if (!isAuthenticated && !verifying) dispatch(verify(true))
 	}, [isAuthenticated])
 
 	if (verifying) {
