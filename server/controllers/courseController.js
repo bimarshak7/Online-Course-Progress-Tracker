@@ -15,7 +15,7 @@ const addCourse = async (req, res) => {
 						.status(500)
 						.json({ error: "Something went wrong." })
 				} else {
-					console.log("Reuslt: ", results)
+					// console.log("Reuslt: ", results)
 					return res.status(200).json({ "message": "Course Added" })
 				}
 			}
