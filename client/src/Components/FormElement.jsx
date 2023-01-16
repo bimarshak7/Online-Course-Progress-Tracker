@@ -1,4 +1,11 @@
-const FormText = ({ type, name, value, handleChange, labelText }) => {
+const FormText = ({
+	type,
+	name,
+	value,
+	handleChange,
+	labelText,
+	placeholder = "",
+}) => {
 	return (
 		<div className="mb-4">
 			<label
@@ -12,6 +19,7 @@ const FormText = ({ type, name, value, handleChange, labelText }) => {
 				type={type}
 				value={value}
 				name={name}
+				placeholder={placeholder}
 				onChange={handleChange}
 				className="form-input w-full py-1 px-2 rounded-md bg-[#1a2025]"
 			/>

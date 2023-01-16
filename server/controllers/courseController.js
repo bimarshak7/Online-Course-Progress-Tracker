@@ -52,23 +52,25 @@ const deleteCourse = async (req, res) => {
 }
 
 const listCourse = async (req, res) => {
-	console.log(req.sess.id)
+	console.log(req.sess.puid)
 	try {
-		let courses = client.query(
-			"SELECT * FROM courses WHERE owner=?",
-			[req.sess.id],
-			(error, results) => {
-				if (error) {
-					console.log(error)
-					return res
-						.status(500)
-						.json({ error: "Something went wrong." })
-				} else
-					return res
-						.status(200)
-						.json({ "message": "Success", data: results.rows })
-			}
-		)
+		let courses = await client
+			.promise()
+			.query(
+				"SELECT pcid,name,chapters,category,added_on,completed FROM courses WHERE puid=?",
+				[req.sess.puid]
+			)
+			.then(([rows, fields]) => {
+				return rows
+			})
+			.catch(err => {
+				return false
+			})
+		if (courses)
+			return res
+				.status(200)
+				.json({ "message": "Success", data: courses ? courses : [] })
+		else return res.status(500).json({ error: "Something went wrong." })
 	} catch (err) {
 		console.log(err)
 		return res.status(500).json({ error: "Something went wrong." })

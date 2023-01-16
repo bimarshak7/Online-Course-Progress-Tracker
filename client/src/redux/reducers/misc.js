@@ -21,8 +21,11 @@ const miscSlice = createSlice({
 			state.alertType = ""
 			state.showAlert = false
 		},
+		setLoading: (state, { payload }) => {
+			state.isLoading = payload
+		},
 	},
 })
 
-export const { displayAlert, clearAlert } = miscSlice.actions
+export const { displayAlert, clearAlert, setLoading } = miscSlice.actions
 export default miscSlice.reducer

@@ -21,7 +21,6 @@ const register = async (req, res) => {
 				console.log(err)
 			})
 
-		console.log("Row counts, ", results)
 		if (results.length > 0)
 			return res.status(500).json({ error: "Email already used" })
 
