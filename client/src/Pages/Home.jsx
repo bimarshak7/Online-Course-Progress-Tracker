@@ -1,43 +1,18 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { BsPlusLg } from "react-icons/bs"
 
-import { Popup, FormText } from "../Components"
-import { addCourse, listCourses } from "../redux/actions/course"
-import { setAlert } from "../redux/actions/misc"
-import { useEffect } from "react"
-import course from "../redux/reducers/course"
-
-const initState = {
-	name: "",
-	category: "",
-	chapters: 1,
-}
+import { CourseForm } from "../Components"
+import { listCourses } from "../redux/actions/course"
 
 const Home = () => {
 	const [show, setShow] = useState(false)
-	const [prop, setProp] = useState(initState)
 	const courses = useSelector(state => state.course.courses)
-
 	const dispatch = useDispatch()
+
 	useEffect(() => {
 		dispatch(listCourses(0))
 	}, [])
-	const handleChange = e => {
-		setProp({ ...prop, [e.target.name]: e.target.value })
-	}
-
-	const onSubmit = e => {
-		console.log("Submitted")
-		const { name, category, chapters } = prop
-		if (name && category && chapters) {
-			dispatch(addCourse(prop))
-			setShow(false)
-			setProp(initState)
-		} else {
-			dispatch(setAlert("One or more field is missing!", "danger"))
-		}
-	}
 
 	return (
 		<div className="flex mx-4 gap-8 m-2">
@@ -50,45 +25,36 @@ const Home = () => {
 					<BsPlusLg className="ml-4 text-2xl my-auto" />
 					<h2>Add new course</h2>
 				</div>
-				{show && (
-					<Popup title={"Add new course"} setShow={setShow}>
-						<FormText
-							type="text"
-							name="name"
-							value={prop.name}
-							labelText="Name of Course"
-							handleChange={handleChange}
-						/>
-						<FormText
-							type="text"
-							name="category"
-							value={prop.category}
-							labelText="Course Category"
-							placeholder="machine learning,frontend,backend,etc"
-							handleChange={handleChange}
-						/>
-
-						<FormText
-							type="number"
-							name="chapters"
-							value={prop.chapters}
-							labelText="No. of chapters"
-							handleChange={handleChange}
-						/>
-						<button
-							className="flex button1 w-2/3 justify-center py-2"
-							onClick={onSubmit}
-						>
-							Save
-						</button>
-					</Popup>
-				)}
+				{show && <CourseForm setShow={setShow} />}
 				<div className="">
-					<h2 className="text-2xl">My Courses</h2>
-					<div className="flex flex-col">
+					<h2 className="text-2xl mb-4">My Courses</h2>
+					<div className="flex flex-col gap-4">
 						{courses &&
 							courses.map(course => {
-								return <h3 key={course.pcid}>{course.name}</h3>
+								return (
+									<div
+										key={course.pcid}
+										className="flex flex-col bg-yellow-700 p-2 rounded-md"
+									>
+										<h3
+											key={course.pcid}
+											className="text-xl"
+										>
+											{course.name}
+										</h3>
+										<div className="flex px-2 gap-10">
+											<li className="ml-2">
+												{course.category.toUpperCase()}
+											</li>
+											<li className="ml-2">
+												{course.chapters} Chapters
+											</li>
+											<li className="ml-2">
+												Added on {course.added_on}
+											</li>
+										</div>
+									</div>
+								)
 							})}
 					</div>
 				</div>

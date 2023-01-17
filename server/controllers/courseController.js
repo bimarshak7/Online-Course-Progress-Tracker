@@ -52,12 +52,11 @@ const deleteCourse = async (req, res) => {
 }
 
 const listCourse = async (req, res) => {
-	console.log(req.sess.puid)
 	try {
 		let courses = await client
 			.promise()
 			.query(
-				"SELECT pcid,name,chapters,category,added_on,completed FROM courses WHERE puid=?",
+				"SELECT pcid,name,chapters,category,DATE_FORMAT(added_on,'%b %d, %Y') as added_on,completed FROM courses WHERE puid=? ORDER BY added_on DESC",
 				[req.sess.puid]
 			)
 			.then(([rows, fields]) => {
