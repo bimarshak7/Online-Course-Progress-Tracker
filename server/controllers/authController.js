@@ -74,7 +74,18 @@ const login = async (req, res) => {
 }
 
 const verify = async (req, res) => {
-	return res.status(200).json({ message: "Login Sucessful !" })
+	let results = await client
+		.promise()
+		.query("SELECT * FROM users WHERE puid = ?", [req.sess.puid])
+		.then(([rows, fields]) => {
+			return rows
+		})
+		.catch(err => {
+			console.log(err)
+		})
+	if (results.length > 0)
+		return res.status(200).json({ message: "Login Sucessful !" })
+	else return res.status(500).json({ error: "Invalid login !" })
 }
 
 const logout = async (req, res) => {

@@ -6,18 +6,27 @@ import { FormText, Popup } from "."
 import { setAlert } from "../redux/actions/misc"
 import { addCourse } from "../redux/actions/course"
 
+const chS = { title: "", remarks: "" }
+
 const initState = {
 	name: "",
 	category: "",
-	chapters: 1,
+	chapters: [chS],
 }
 
 const CourseForm = ({ setShow }) => {
 	const [prop, setProp] = useState(initState)
+	const [chapters, setChapters] = useState([chS])
 	const dispatch = useDispatch()
 
 	const handleChange = e => {
 		setProp({ ...prop, [e.target.name]: e.target.value })
+	}
+	const handleChapters = (e, idx) => {
+		// console.log(idx, e.target.name, e.target.value)
+		let update = prop.chapters
+		update[idx][e.target.name] = e.target.value
+		setProp({ ...prop, chapters: update })
 	}
 
 	const onSubmit = e => {
@@ -49,19 +58,41 @@ const CourseForm = ({ setShow }) => {
 				placeholder="machine learning,frontend,backend,etc"
 				handleChange={handleChange}
 			/>
-
-			<FormText
-				type="number"
-				name="chapters"
-				value={prop.chapters}
-				labelText="No. of chapters"
-				handleChange={handleChange}
-			/>
 			<hr className="py-2" />
 			<h2 className="text-center text-lg mb-2 font-semibold">
 				Add Chapters
 			</h2>
-			<BsPlusCircleFill className="mx-auto my-1 text-xl" />
+			<BsPlusCircleFill
+				className="mx-auto my-1 text-xl"
+				onClick={e =>
+					setProp({ ...chapters, chapters: [...prop.chapters, chS] })
+				}
+			/>
+
+			{prop.chapters.map((chapter, idx) => {
+				return (
+					<div className="" key={idx}>
+						<span className="font-bold">Chapter {idx + 1}</span>
+						<div className="flex gap-2">
+							<FormText
+								type="text"
+								name="title"
+								value={prop.chapters[idx].title}
+								labelText="Title"
+								handleChange={e => handleChapters(e, idx)}
+							/>
+							<FormText
+								type="text"
+								name="remarks"
+								value={prop.chapters[idx].remarks}
+								labelText="Remarks"
+								handleChange={e => handleChapters(e, idx)}
+							/>
+						</div>
+						<hr className="mb-4" />
+					</div>
+				)
+			})}
 			<button
 				className="flex button1 w-2/3 justify-center py-2"
 				onClick={onSubmit}

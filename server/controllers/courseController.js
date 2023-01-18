@@ -11,6 +11,7 @@ const addCourse = async (req, res) => {
 			[name, chapters, category, req.sess.puid],
 			(error, results) => {
 				if (error) {
+					console.log(error)
 					return res
 						.status(500)
 						.json({ error: "Something went wrong." })
@@ -63,6 +64,7 @@ const listCourse = async (req, res) => {
 				return rows
 			})
 			.catch(err => {
+				console.log(err)
 				return false
 			})
 		if (courses)
