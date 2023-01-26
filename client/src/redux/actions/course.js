@@ -7,6 +7,7 @@ import { setLoading } from "../reducers/misc"
 export const addCourse = createAsyncThunk(
 	"course/add",
 	async ({ name, category, chapters }, { dispatch }) => {
+		console.log(chapters)
 		const response = await axios
 			.post(`/api/course/add`, {
 				name: name,

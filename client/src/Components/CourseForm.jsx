@@ -11,7 +11,7 @@ const chS = { title: "", remarks: "" }
 const initState = {
 	name: "",
 	category: "",
-	chapters: [chS],
+	chapters: [],
 }
 
 const CourseForm = ({ setShow }) => {
@@ -30,7 +30,7 @@ const CourseForm = ({ setShow }) => {
 	}
 
 	const onSubmit = e => {
-		console.log("Submitted", prop)
+		// console.log("Submitted", prop)
 		const { name, category, chapters } = prop
 		if (name && category && chapters) {
 			dispatch(addCourse(prop))

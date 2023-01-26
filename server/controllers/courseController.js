@@ -32,21 +32,23 @@ const addCourse = async (req, res) => {
 
 		console.log("Values", values)
 
-		let results2 = await client
-			.promise()
-			.query("INSERT INTO chapters(title,remarks,chNo,cid) VALUES ?", [
-				values,
-			])
-			.then(([rows, fields]) => {
-				return rows
-			})
-			.catch(err => {
-				console.log(err)
-				return err
-			})
-
-		if (results2.errno)
-			return res.status(500).json({ error: "Something went wrong." })
+		if (chapters.length > 0) {
+			let results2 = await client
+				.promise()
+				.query(
+					"INSERT INTO chapters(title,remarks,chNo,cid) VALUES ?",
+					[values]
+				)
+				.then(([rows, fields]) => {
+					return rows
+				})
+				.catch(err => {
+					console.log(err)
+					return err
+				})
+			if (results2.errno)
+				return res.status(500).json({ error: "Something went wrong." })
+		}
 
 		return res.status(200).json({ "message": "Course Added" })
 	} catch (err) {

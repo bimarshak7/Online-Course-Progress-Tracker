@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { BsPlusLg } from "react-icons/bs"
 
-import { CourseForm } from "../Components"
+import { CourseForm, CourseCard } from "../Components"
 import { listCourses } from "../redux/actions/course"
 
 const Home = () => {
@@ -32,28 +32,10 @@ const Home = () => {
 						{courses &&
 							courses.map(course => {
 								return (
-									<div
+									<CourseCard
+										course={course}
 										key={course.pcid}
-										className="flex flex-col bg-yellow-700 p-2 rounded-md"
-									>
-										<h3
-											key={course.pcid}
-											className="text-xl"
-										>
-											{course.name}
-										</h3>
-										<div className="flex px-2 gap-10">
-											<li className="ml-2">
-												{course.category.toUpperCase()}
-											</li>
-											<li className="ml-2">
-												{course.chapters} Chapters
-											</li>
-											<li className="ml-2">
-												Added on {course.added_date}
-											</li>
-										</div>
-									</div>
+									/>
 								)
 							})}
 					</div>
