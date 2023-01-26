@@ -5,22 +5,50 @@ const addCourse = async (req, res) => {
 	if (!name || !chapters || !category) {
 		return res.status(500).json({ error: "Missing one or more field." })
 	}
+	// console.log(name, category, chapters, chapters.length)
 	try {
-		client.query(
-			"INSERT INTO courses (name, chapters,category,puid) VALUES (?, ?, ?, ?)",
-			[name, chapters, category, req.sess.puid],
-			(error, results) => {
-				if (error) {
-					console.log(error)
-					return res
-						.status(500)
-						.json({ error: "Something went wrong." })
-				} else {
-					// console.log("Reuslt: ", results)
-					return res.status(200).json({ "message": "Course Added" })
-				}
-			}
-		)
+		let results1 = await client
+			.promise()
+			.query(
+				"INSERT INTO courses (name, chapters,category,puid) VALUES (?, ?, ?, ?)",
+				[name, chapters.length, category, req.sess.puid]
+			)
+			.then(([rows, fields]) => {
+				return rows
+			})
+			.catch(err => {
+				return err
+			})
+
+		if (results1.errno)
+			return res.status(500).json({ error: "Something went wrong." })
+
+		let values = []
+
+		chapters.forEach(chapter => {
+			chapter.cid = results1.insertId
+			if (chapter.title.length > 0) values.push(Object.values(chapter))
+		})
+
+		console.log("Values", values)
+
+		let results2 = await client
+			.promise()
+			.query("INSERT INTO chapters(title,remarks,chNo,cid) VALUES ?", [
+				values,
+			])
+			.then(([rows, fields]) => {
+				return rows
+			})
+			.catch(err => {
+				console.log(err)
+				return err
+			})
+
+		if (results2.errno)
+			return res.status(500).json({ error: "Something went wrong." })
+
+		return res.status(200).json({ "message": "Course Added" })
 	} catch (err) {
 		console.log(err)
 		return res.status(500).json({ error: "Something went wrong." })

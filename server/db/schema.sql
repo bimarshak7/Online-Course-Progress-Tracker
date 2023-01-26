@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS courses (
-  id              SERIAL,
+  id              INT AUTO_INCREMENT,
   pcid            VARCHAR(36) NOT NULL DEFAULT (UUID()),
   name            VARCHAR(50) NOT NULL,
   chapters        INT DEFAULT 1,
@@ -24,20 +24,19 @@ CREATE TABLE IF NOT EXISTS courses (
   completed       BOOLEAN DEFAULT 0,
   puid            VARCHAR(36),
   
-  PRIMARY KEY(pcid,id),
+  PRIMARY KEY(id,pcid),
   FOREIGN KEY (puid) REFERENCES users(puid) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS chapters (
   id              SERIAL,
-  pchid           VARCHAR(36) DEFAULT (UUID()),
   title           VARCHAR(50) NOT NULL,
   remarks         VARCHAR(50) DEFAULT '',
   chNo            INT NOT NULL,
   completed       BOOLEAN DEFAULT 0,
   date_completed  DATE,
-  pcid            VARCHAR(36),
+  cid            INT,
   
-  PRIMARY KEY(id,pcid),
-  FOREIGN KEY (pcid) REFERENCES courses(pcid) ON DELETE CASCADE
+  PRIMARY KEY(id),
+  FOREIGN KEY (cid) REFERENCES courses(id) ON DELETE CASCADE
 );
