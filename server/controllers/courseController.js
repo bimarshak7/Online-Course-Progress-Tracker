@@ -85,7 +85,7 @@ const listCourse = async (req, res) => {
 		let courses = await client
 			.promise()
 			.query(
-				"SELECT pcid,name,chapters,category,DATE_FORMAT(added_on,'%b %d, %Y') as added_on,completed FROM courses WHERE puid=? ORDER BY added_on DESC",
+				"SELECT pcid,name,chapters,category,DATE_FORMAT(added_on,'%b %d, %Y') as added_date,completed FROM courses WHERE puid=? ORDER BY added_on DESC",
 				[req.sess.puid]
 			)
 			.then(([rows, fields]) => {

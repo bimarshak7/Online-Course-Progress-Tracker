@@ -50,7 +50,7 @@ const Home = () => {
 												{course.chapters} Chapters
 											</li>
 											<li className="ml-2">
-												Added on {course.added_on}
+												Added on {course.added_date}
 											</li>
 										</div>
 									</div>

@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS courses (
   name            VARCHAR(50) NOT NULL,
   chapters        INT DEFAULT 1,
   category        VARCHAR(50),
-  added_on        DATE DEFAULT (CURDATE()),
+  added_on        DATETIME DEFAULT (CURRENT_TIMESTAMP()),
   completed       BOOLEAN DEFAULT 0,
   puid            VARCHAR(36),
   
