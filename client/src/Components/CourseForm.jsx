@@ -59,12 +59,12 @@ const CourseForm = ({ setShow }) => {
 				placeholder="machine learning,frontend,backend,etc"
 				handleChange={handleChange}
 			/>
-			<hr className="py-2" />
+			<hr className="py-1" />
 			<h2 className="text-center text-lg mb-2 font-semibold">
 				Add Chapters
 			</h2>
 			<BsPlusCircleFill
-				className="mx-auto my-1 text-xl"
+				className="mx-auto mb-4 text-xl"
 				onClick={e =>
 					setProp({
 						...prop,

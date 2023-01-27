@@ -28,7 +28,7 @@ const Home = () => {
 				{show && <CourseForm setShow={setShow} />}
 				<div className="">
 					<h2 className="text-2xl mb-4">My Courses</h2>
-					<div className="flex flex-col gap-4">
+					<div className="grid grid-cols-2 gap-4">
 						{courses &&
 							courses.map(course => {
 								return (
