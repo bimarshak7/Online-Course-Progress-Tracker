@@ -16,21 +16,22 @@ const initState = {
 
 const CourseForm = ({ setShow }) => {
 	const [prop, setProp] = useState(initState)
-	const [chapters, setChapters] = useState([chS])
+
 	const dispatch = useDispatch()
 
 	const handleChange = e => {
 		setProp({ ...prop, [e.target.name]: e.target.value })
 	}
+
 	const handleChapters = (e, idx) => {
-		// console.log(idx, e.target.name, e.target.value)
-		let update = prop.chapters
+		console.log(idx, e.target.name, e.target.value)
+		let update = [...prop.chapters]
 		update[idx][e.target.name] = e.target.value
 		setProp({ ...prop, chapters: update })
 	}
 
 	const onSubmit = e => {
-		// console.log("Submitted", prop)
+		console.log("Submitted", prop)
 		const { name, category, chapters } = prop
 		if (name && category && chapters) {
 			dispatch(addCourse(prop))
@@ -65,7 +66,10 @@ const CourseForm = ({ setShow }) => {
 			<BsPlusCircleFill
 				className="mx-auto my-1 text-xl"
 				onClick={e =>
-					setProp({ ...chapters, chapters: [...prop.chapters, chS] })
+					setProp({
+						...prop,
+						chapters: [...prop.chapters, { ...chS }],
+					})
 				}
 			/>
 
@@ -77,14 +81,14 @@ const CourseForm = ({ setShow }) => {
 							<FormText
 								type="text"
 								name="title"
-								value={prop.chapters[idx].title}
+								value={chapter.title}
 								labelText="Title"
 								handleChange={e => handleChapters(e, idx)}
 							/>
 							<FormText
 								type="text"
 								name="remarks"
-								value={prop.chapters[idx].remarks}
+								value={chapter.remarks}
 								labelText="Remarks"
 								handleChange={e => handleChapters(e, idx)}
 							/>

@@ -25,18 +25,20 @@ const addCourse = async (req, res) => {
 
 		let values = []
 
-		chapters.forEach(chapter => {
+		chapters.forEach((chapter, idx) => {
+			console.log(chapter, idx)
 			chapter.cid = results1.insertId
+			chapter.chNo = parseInt(idx) + 1
 			if (chapter.title.length > 0) values.push(Object.values(chapter))
 		})
-
+		console.log(chapters)
 		console.log("Values", values)
 
 		if (chapters.length > 0) {
 			let results2 = await client
 				.promise()
 				.query(
-					"INSERT INTO chapters(title,remarks,chNo,cid) VALUES ?",
+					"INSERT INTO chapters(title,remarks,cid,chNo) VALUES ?",
 					[values]
 				)
 				.then(([rows, fields]) => {
