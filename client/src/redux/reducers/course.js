@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-import { listCourses } from "../actions/course"
+import { listCourses, getSingleCourse } from "../actions/course"
 
 const initialState = {}
 
@@ -11,6 +11,9 @@ const courseSlice = createSlice({
 	extraReducers: builder => {
 		builder.addCase(listCourses.fulfilled, (state, { payload }) => {
 			state.courses = payload.data
+		})
+		builder.addCase(getSingleCourse.fulfilled, (state, { payload }) => {
+			if (payload?.data) state.singleCourse = payload.data
 		})
 	},
 })

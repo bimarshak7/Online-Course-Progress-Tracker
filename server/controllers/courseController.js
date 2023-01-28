@@ -130,7 +130,7 @@ const getCourse = async (req, res) => {
 
 		if (course.length === 0)
 			return res.status(500).json({ error: "Course not found!" })
-		console.log(course)
+
 		let chapters = await client
 			.promise()
 			.query(
@@ -147,8 +147,7 @@ const getCourse = async (req, res) => {
 		delete course[0].id
 		return res.status(200).json({
 			"message": "Success",
-			data: course ? course : [],
-			chapters: chapters,
+			data: { course: course[0], chapters: chapters },
 		})
 	} catch (err) {
 		console.log(err)

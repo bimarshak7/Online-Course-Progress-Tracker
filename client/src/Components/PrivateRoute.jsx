@@ -13,12 +13,15 @@ const PrivateRoute = ({ children }) => {
 		if (!isAuthenticated && !verifying) dispatch(verify(true))
 	}, [isAuthenticated])
 
-	if (verifying) {
+	if (verifying && !isAuthenticated) {
 		return <Loading />
 	}
+
 	if (!verifying && !isAuthenticated) {
-		dispatch(setAlert("You must login to continue", "danger"))
-		return <Navigate to="/" />
+		setTimeout(() => {
+			dispatch(setAlert("You must login to continue", "danger"))
+			return <Navigate to="/" />
+		}, 4000)
 	}
 
 	return (

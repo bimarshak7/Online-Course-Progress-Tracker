@@ -53,3 +53,30 @@ export const listCourses = createAsyncThunk(
 		return { success: true, data: response.data }
 	}
 )
+
+export const getSingleCourse = createAsyncThunk(
+	"course/getSingleCOurse",
+	async (id, { dispatch, getState }) => {
+		if (getState().misc.isLoading) return
+
+		dispatch(setLoading(true))
+		const response = await axios
+			.get(`/api/course/?id=${id}`)
+			.then(res => {
+				dispatch(setLoading(false))
+				return res.data
+			})
+			.catch(err => {
+				console.error(err.response)
+				dispatch(
+					setAlert(
+						err.response.data.error || "Error fetching data",
+						"danger",
+						true
+					)
+				)
+			})
+		if (!response) return { success: false }
+		return { success: true, data: response.data }
+	}
+)

@@ -29,10 +29,7 @@ function App() {
 						}
 					>
 						<Route path="" element={<CourseList />} />
-						<Route
-							path="/home/course/:id"
-							element={<CourseList />}
-						/>
+						<Route path="/home/course/:id" element={<Course />} />
 					</Route>
 					<Route
 						path="/feed"
