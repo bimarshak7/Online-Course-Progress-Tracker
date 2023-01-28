@@ -7,6 +7,7 @@ import NavBar from "./NavBar"
 import Popup from "./Popup"
 import CourseForm from "./CourseForm"
 import CourseCard from "./CourseCard"
+import CourseList from "./CourseList"
 
 export {
 	Logo,
@@ -16,6 +17,7 @@ export {
 	PrivateRoute,
 	NavBar,
 	Popup,
+	CourseList,
 	CourseForm,
 	CourseCard,
 }

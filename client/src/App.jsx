@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { Provider } from "react-redux"
 import { useSelector } from "react-redux"
 
-import { Home, Login, Feed } from "./Pages"
-import { Alert, PrivateRoute } from "./Components"
+import { Home, Login, Feed, Course } from "./Pages"
+import { Alert, PrivateRoute, CourseList } from "./Components"
 import "./App.css"
 
 function App() {
@@ -27,7 +27,13 @@ function App() {
 								<Home />
 							</PrivateRoute>
 						}
-					/>
+					>
+						<Route path="" element={<CourseList />} />
+						<Route
+							path="/home/course/:id"
+							element={<CourseList />}
+						/>
+					</Route>
 					<Route
 						path="/feed"
 						element={
