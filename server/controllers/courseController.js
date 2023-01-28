@@ -110,4 +110,50 @@ const listCourse = async (req, res) => {
 	}
 }
 
-module.exports = { addCourse, listCourse, deleteCourse }
+const getCourse = async (req, res) => {
+	const { id } = req.query
+	console.log("Get courses....")
+	try {
+		let course = await client
+			.promise()
+			.query(
+				"SELECT id,pcid,name,chapters,category,DATE_FORMAT(added_on,'%b %d, %Y') as added_date,completed FROM courses WHERE puid=? AND pcid=? ORDER BY added_on DESC",
+				[req.sess.puid, id]
+			)
+			.then(([rows, fields]) => {
+				return rows
+			})
+			.catch(err => {
+				console.log(err)
+				return false
+			})
+
+		if (course.length === 0)
+			return res.status(500).json({ error: "Course not found!" })
+		console.log(course)
+		let chapters = await client
+			.promise()
+			.query(
+				"SELECT title,remarks,chNo,completed,DATE_FORMAT(date_completed,'%b %d, %Y') as date_completed FROM chapters WHERE cid=?",
+				[course[0].id]
+			)
+			.then(([rows, fields]) => {
+				return rows
+			})
+			.catch(err => {
+				console.log(err)
+				return err
+			})
+		delete course[0].id
+		return res.status(200).json({
+			"message": "Success",
+			data: course ? course : [],
+			chapters: chapters,
+		})
+	} catch (err) {
+		console.log(err)
+		return res.status(500).json({ error: "Something went wrong." })
+	}
+}
+
+module.exports = { addCourse, listCourse, deleteCourse, getCourse }
