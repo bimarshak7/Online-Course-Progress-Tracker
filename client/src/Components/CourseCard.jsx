@@ -6,7 +6,7 @@ const CourseCard = ({ course }) => {
 			<div
 				className={`box-border pl-4 flex flex-col ${
 					course.completed ? "bg-green-900" : "bg-red-800"
-				} cursor-pointer p-2 border rounded-md hover:shadow-md hover:shadow-blue-700 transition duration-300 ease-in-out`}
+				} cursor-pointer p-2 border rounded-md hover:scale-[102%] hover:shadow-lg hover:shadow-amber-500 transition duration-300 ease-in-out`}
 			>
 				<h3 className="text-xl">{course.name}</h3>
 				<div className="grid grid-cols-2">

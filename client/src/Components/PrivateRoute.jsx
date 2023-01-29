@@ -19,9 +19,8 @@ const PrivateRoute = ({ children }) => {
 
 	if (!verifying && !isAuthenticated) {
 		setTimeout(() => {
-			dispatch(setAlert("You must login to continue", "danger"))
 			return <Navigate to="/" />
-		}, 4000)
+		}, 3000)
 	}
 
 	return (

@@ -64,7 +64,7 @@ const CourseForm = ({ setShow }) => {
 				Add Chapters
 			</h2>
 			<BsPlusCircleFill
-				className="mx-auto mb-4 text-xl"
+				className="mx-auto mb-4 text-xl cursor-pointer"
 				onClick={e =>
 					setProp({
 						...prop,

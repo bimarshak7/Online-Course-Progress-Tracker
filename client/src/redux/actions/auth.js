@@ -75,6 +75,7 @@ export const verify = createAsyncThunk(
 							"danger"
 						)
 					)
+					// window.location.replace("/")
 				}
 				return false
 			})
@@ -95,6 +96,7 @@ export const logout = createAsyncThunk(
 			})
 			.then(res => {
 				dispatch(setAlert(res.data.message ?? "Logged Out!", "success"))
+				window.location.replace("/")
 				return res.data
 			})
 			.catch(err => {

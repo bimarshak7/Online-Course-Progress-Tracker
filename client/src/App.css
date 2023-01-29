@@ -45,6 +45,7 @@
 .header-drop li {
 	@apply cursor-pointer my-1 hover:bg-blue-800 rounded-md py-2 duration-200 hover:text-slate-200;
 }
+
 @keyframes bistarai {
 	0% {
 		opacity: 0;
@@ -53,5 +54,18 @@
 	100% {
 		opacity: 1;
 		top: -75px;
+	}
+}
+.popup {
+	animation: popup 0.2s;
+}
+@keyframes popup {
+	0% {
+		scale: 0.1;
+		opacity: 0.4;
+	}
+	100% {
+		scale: 1;
+		opacity: 1;
 	}
 }
