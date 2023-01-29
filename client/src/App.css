@@ -69,3 +69,10 @@
 		opacity: 1;
 	}
 }
+
+.course-prop {
+	@apply flex text-xl gap-20;
+}
+.course-prop li {
+	@apply flex leading-5 gap-2;
+}
