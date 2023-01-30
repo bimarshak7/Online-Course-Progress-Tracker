@@ -26,19 +26,16 @@ const addCourse = async (req, res) => {
 		let values = []
 
 		chapters.forEach((chapter, idx) => {
-			console.log(chapter, idx)
 			chapter.cid = results1.insertId
 			chapter.chNo = parseInt(idx) + 1
 			if (chapter.title.length > 0) values.push(Object.values(chapter))
 		})
-		console.log(chapters)
-		console.log("Values", values)
 
 		if (chapters.length > 0) {
 			let results2 = await client
 				.promise()
 				.query(
-					"INSERT INTO chapters(title,remarks,cid,chNo) VALUES ?",
+					"INSERT INTO chapters(title,remarks,chNo,cid) VALUES ?",
 					[values]
 				)
 				.then(([rows, fields]) => {
@@ -62,7 +59,7 @@ const addCourse = async (req, res) => {
 const deleteCourse = async (req, res) => {
 	const { id } = req.body
 	if (!id) {
-		return res.status(500).json({ error: "Missing one or more field." })
+		return res.status(500).json({ error: "Missing course pcid." })
 	}
 	try {
 		client.query(
@@ -76,6 +73,35 @@ const deleteCourse = async (req, res) => {
 						.json({ error: "Something went wrong." })
 				} else
 					return res.status(200).json({ "message": "Course Deleted" })
+			}
+		)
+	} catch (err) {
+		console.log(err)
+		return res.status(500).json({ error: "Something went wrong." })
+	}
+}
+
+const deleteChapter = async (req, res) => {
+	const { pcid, chNo } = req.body
+	if (!pcid || !chNo) {
+		return res.status(500).json({ error: "Missing one or more fields." })
+	}
+	try {
+		client.query(
+			`DELETE FROM chapters WHERE cid=(SELECT id FROM courses where pcid=?) and chNo=?;
+			UPDATE courses set chapters=chapters-1 where pcid=?;
+			UPDATE chapters set chNo=chNo-1 where chNo>? and cid=(SELECT id FROM courses where pcid=?);`,
+			[pcid, parseInt(chNo), pcid, parseInt(chNo), pcid],
+			(error, results) => {
+				if (error) {
+					console.log(error)
+					return res
+						.status(500)
+						.json({ error: "Something went wrong." })
+				} else
+					return res
+						.status(200)
+						.json({ "message": "Chapter Deleted" })
 			}
 		)
 	} catch (err) {
@@ -155,4 +181,10 @@ const getCourse = async (req, res) => {
 	}
 }
 
-module.exports = { addCourse, listCourse, deleteCourse, getCourse }
+module.exports = {
+	addCourse,
+	listCourse,
+	deleteCourse,
+	deleteChapter,
+	getCourse,
+}

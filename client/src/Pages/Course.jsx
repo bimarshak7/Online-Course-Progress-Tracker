@@ -60,7 +60,7 @@ const Course = () => {
 					<div class="py-2 inline-block w-4/5 sm:px-6 lg:px-8">
 						<div class="overflow-hidden rounded-md">
 							<table class="min-w-full ">
-								<thead class="font-bold border-b bg-zinc-600 text-lg">
+								<thead class="font-bold border-b bg-slate-800 text-lg">
 									<tr>
 										<th
 											scope="col"
@@ -88,7 +88,7 @@ const Course = () => {
 											return (
 												<tr
 													key={chapter.chNo}
-													class="bg-gray-900 border-b text-white text-left text-lg"
+													class="bg-gray-900 hover:bg-lime-700 border-b text-white text-left text-lg"
 												>
 													<td class="px-6 py-4 ">
 														{chapter.chNo}
@@ -99,9 +99,9 @@ const Course = () => {
 													<td class="py-4 whitespace-nowrap">
 														{chapter.remarks}
 													</td>
-													<td class="py-4 whitespace-nowrap flex gap-2 text-3xl">
+													<td class="py-4 whitespace-nowrap flex gap-2 text-2xl">
 														<BiCheck className="cursor-pointer  hover:text-cyan-400" />
-														<BiEditAlt className="cursor-pointer hover:text-violet-700" />
+														<BiEditAlt className="cursor-pointer hover:text-yellow-500" />
 														<RxCross2 className="hover:text-rose-900 cursor-pointer" />
 													</td>
 												</tr>

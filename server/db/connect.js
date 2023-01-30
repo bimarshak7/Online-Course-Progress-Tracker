@@ -6,6 +6,7 @@ const client = mysql.createConnection({
 	host: process.env.DBHOST,
 	database: process.env.DBNAME,
 	port: process.env.DBPORT,
+	multipleStatements: true,
 })
 
 const connectDB = async () => {
