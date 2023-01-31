@@ -63,7 +63,7 @@ const deleteCourse = async (req, res) => {
 	}
 	try {
 		client.query(
-			"DELETE FROM courses WHERE id=?",
+			"DELETE FROM courses WHERE pcid=?",
 			[id],
 			(error, results) => {
 				if (error) {

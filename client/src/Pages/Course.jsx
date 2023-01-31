@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -13,27 +13,45 @@ import {
 } from "react-icons/bi"
 import { RxCross2 } from "react-icons/rx"
 
-import { getSingleCourse } from "../redux/actions/course"
-import { Loading } from "../Components"
+import { getSingleCourse, deleteCourse } from "../redux/actions/course"
+import { Loading, ConfirmDiag } from "../Components"
 
 const Course = () => {
 	const { id } = useParams()
 	const course = useSelector(state => state.course.singleCourse)
+	const isLoading = useSelector(state => state.misc.isLoading)
+	const [del, setDel] = useState(false)
+
 	const dispatch = useDispatch()
 
 	useEffect(() => {
 		if (id) dispatch(getSingleCourse(id))
 	}, [id])
 
-	if (!course) return <Loading />
+	const handleDelete = pcid => {
+		dispatch(deleteCourse(pcid))
+	}
+	if (!course && isLoading) return <Loading />
 
+	if (!course && !isLoading)
+		return <h1 className="text-2xl">Course Not found</h1>
 	return (
 		<div className="flex flex-col gap-4">
+			{del && (
+				<ConfirmDiag
+					setShow={setDel}
+					yesFunc={handleDelete}
+					params={course.course.pcid}
+				/>
+			)}
 			<div className="flex gap-12">
 				<h1 className="text-3xl font-semibold">{course.course.name}</h1>
 				<div className="flex gap-2">
 					<BiEdit className="text-2xl leading-5 cursor-pointer hover:text-yellow-500" />
-					<BiTrashAlt className="text-2xl leading-5 cursor-pointer hover:text-rose-800" />
+					<BiTrashAlt
+						onClick={e => setDel(true)}
+						className="text-2xl leading-5 cursor-pointer hover:text-rose-800"
+					/>
 				</div>
 			</div>
 
@@ -55,29 +73,29 @@ const Course = () => {
 				</li>
 			</div>
 			<h2 className="text-2xl font-bold mt-4 underline">Chapters</h2>
-			<div class="flex flex-col">
-				<div class="overflow-x-auto sm:-mx-6 lg:-mx-8 ">
-					<div class="py-2 inline-block w-4/5 sm:px-6 lg:px-8">
-						<div class="overflow-hidden rounded-md">
-							<table class="min-w-full ">
-								<thead class="font-bold border-b bg-slate-800 text-lg">
+			<div className="flex flex-col">
+				<div className="overflow-x-auto sm:-mx-6 lg:-mx-8 ">
+					<div className="py-2 inline-block w-4/5 sm:px-6 lg:px-8">
+						<div className="overflow-hidden rounded-md">
+							<table className="min-w-full ">
+								<thead className="font-bold border-b bg-slate-800 text-lg">
 									<tr>
 										<th
 											scope="col"
-											class="  px-6 py-4 text-left"
+											className="  px-6 py-4 text-left"
 										>
 											#
 										</th>
 										<th
 											scope="col"
-											class=" px-6 py-4 text-left"
+											className=" px-6 py-4 text-left"
 										>
 											Title
 										</th>
-										<th scope="col" class=" text-left">
+										<th scope="col" className=" text-left">
 											Remarks
 										</th>
-										<th scope="col" class=" text-left">
+										<th scope="col" className=" text-left">
 											Actions
 										</th>
 									</tr>
@@ -88,18 +106,18 @@ const Course = () => {
 											return (
 												<tr
 													key={chapter.chNo}
-													class="bg-gray-900 hover:bg-lime-700 border-b text-white text-left text-lg"
+													className="bg-gray-900 hover:bg-lime-700 border-b text-white text-left text-lg"
 												>
-													<td class="px-6 py-4 ">
+													<td className="px-6 py-4 ">
 														{chapter.chNo}
 													</td>
-													<td class="px-6 py-4 ">
+													<td className="px-6 py-4 ">
 														{chapter.title}
 													</td>
-													<td class="py-4 whitespace-nowrap">
+													<td className="py-4 whitespace-nowrap">
 														{chapter.remarks}
 													</td>
-													<td class="py-4 whitespace-nowrap flex gap-2 text-2xl">
+													<td className="py-4 whitespace-nowrap flex gap-2 text-2xl">
 														<BiCheck className="cursor-pointer  hover:text-cyan-400" />
 														<BiEditAlt className="cursor-pointer hover:text-yellow-500" />
 														<RxCross2 className="hover:text-rose-900 cursor-pointer" />
@@ -108,9 +126,9 @@ const Course = () => {
 											)
 										})
 									) : (
-										<h2 className="text-center py-2">
-											No chapters in this course.
-										</h2>
+										<tr className="text-center py-2">
+											<td>No chapters in this course.</td>
+										</tr>
 									)}
 								</tbody>
 							</table>

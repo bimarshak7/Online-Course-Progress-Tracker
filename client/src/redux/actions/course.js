@@ -67,6 +67,7 @@ export const getSingleCourse = createAsyncThunk(
 				return res.data
 			})
 			.catch(err => {
+				dispatch(setLoading(false))
 				console.error(err.response)
 				dispatch(
 					setAlert(
@@ -77,6 +78,32 @@ export const getSingleCourse = createAsyncThunk(
 				)
 			})
 		if (!response) return { success: false }
+		return { success: true, data: response.data }
+	}
+)
+
+export const deleteCourse = createAsyncThunk(
+	"course/delete",
+	async (pcid, { dispatch }) => {
+		const response = await axios
+			.delete(`/api/course`, { data: { id: pcid } })
+			.then(res => {
+				dispatch(setAlert("Course Deleted!", "success"))
+				window.location.replace("/home")
+				return res.data
+			})
+			.catch(err => {
+				console.error(err.response)
+				dispatch(
+					setAlert(
+						err.response.data.error || "Couldn't delete course.",
+						"danger",
+						true
+					)
+				)
+			})
+		if (!response) return { success: false }
+
 		return { success: true, data: response.data }
 	}
 )

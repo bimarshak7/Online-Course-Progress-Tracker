@@ -8,6 +8,7 @@ import Popup from "./Popup"
 import CourseForm from "./CourseForm"
 import CourseCard from "./CourseCard"
 import CourseList from "./CourseList"
+import ConfirmDiag from "./ConfirmD"
 
 export {
 	Logo,
@@ -20,4 +21,5 @@ export {
 	CourseList,
 	CourseForm,
 	CourseCard,
+	ConfirmDiag,
 }

@@ -20,6 +20,7 @@ app.use(
 		extended: true,
 	})
 )
+
 app.use(cookieParser())
 
 app.get("/", (req, res) => {
