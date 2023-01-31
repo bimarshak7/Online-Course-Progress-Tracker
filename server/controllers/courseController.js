@@ -10,13 +10,14 @@ const addCourse = async (req, res) => {
 		let results1 = await client
 			.promise()
 			.query(
-				"INSERT INTO courses (name, chapters,category,puid) VALUES (?, ?, ?, ?)",
-				[name, chapters.length, category, req.sess.puid]
+				"INSERT INTO courses (name,category,puid) VALUES (?, ?, ?)",
+				[name, category, req.sess.puid]
 			)
 			.then(([rows, fields]) => {
 				return rows
 			})
 			.catch(err => {
+				console.log(err)
 				return err
 			})
 
@@ -30,12 +31,12 @@ const addCourse = async (req, res) => {
 			chapter.chNo = parseInt(idx) + 1
 			if (chapter.title.length > 0) values.push(Object.values(chapter))
 		})
-
+		console.log(values)
 		if (chapters.length > 0) {
 			let results2 = await client
 				.promise()
 				.query(
-					"INSERT INTO chapters(title,remarks,chNo,cid) VALUES ?",
+					"INSERT INTO chapters(title,remarks,cid,chNo) VALUES ?",
 					[values]
 				)
 				.then(([rows, fields]) => {
@@ -115,7 +116,7 @@ const listCourse = async (req, res) => {
 		let courses = await client
 			.promise()
 			.query(
-				"SELECT pcid,name,chapters,category,DATE_FORMAT(added_on,'%b %d, %Y') as added_date,completed FROM courses WHERE puid=? ORDER BY added_on DESC",
+				"SELECT pcid,name,(SELECT COUNT(*) FROM chapters WHERE cid=courses.id) as chapters,category,DATE_FORMAT(added_on,'%b %d, %Y') as added_date,completed FROM courses WHERE puid=? ORDER BY added_on DESC",
 				[req.sess.puid]
 			)
 			.then(([rows, fields]) => {
@@ -138,12 +139,11 @@ const listCourse = async (req, res) => {
 
 const getCourse = async (req, res) => {
 	const { id } = req.query
-	console.log("Get courses....")
 	try {
 		let course = await client
 			.promise()
 			.query(
-				"SELECT id,pcid,name,chapters,category,DATE_FORMAT(added_on,'%b %d, %Y') as added_date,completed FROM courses WHERE puid=? AND pcid=? ORDER BY added_on DESC",
+				"SELECT id,pcid,name,(SELECT COUNT(*) FROM chapters WHERE cid=courses.id) as chapters,category,DATE_FORMAT(added_on,'%b %d, %Y') as added_date,completed FROM courses WHERE puid=? AND pcid=? ORDER BY added_on DESC",
 				[req.sess.puid, id]
 			)
 			.then(([rows, fields]) => {

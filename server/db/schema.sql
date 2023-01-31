@@ -18,7 +18,6 @@ CREATE TABLE IF NOT EXISTS courses (
   id              INT AUTO_INCREMENT,
   pcid            VARCHAR(36) NOT NULL DEFAULT (UUID()),
   name            VARCHAR(50) NOT NULL,
-  chapters        INT DEFAULT 1,
   category        VARCHAR(50),
   added_on        DATETIME DEFAULT (CURRENT_TIMESTAMP()),
   completed       BOOLEAN DEFAULT 0,
