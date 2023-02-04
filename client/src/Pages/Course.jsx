@@ -10,7 +10,7 @@ import {
 	BiTrashAlt,
 	BiCheck,
 	BiEditAlt,
-	BiRepeat,
+	BiTrophy,
 	BiRecycle,
 } from "react-icons/bi"
 import { RxCross2 } from "react-icons/rx"
@@ -107,8 +107,15 @@ const Course = () => {
 					{course.course.added_date}
 				</li>
 				<li>
-					<BiLoader />
-					{course.course.completed ? "Completed" : "In Progress"}
+					{course.course.completed ? (
+						<>
+							<BiTrophy /> Completed
+						</>
+					) : (
+						<>
+							<BiLoader /> In Progress
+						</>
+					)}
 				</li>
 			</div>
 			<h2 className="text-2xl font-bold mt-4 underline">Chapters</h2>
