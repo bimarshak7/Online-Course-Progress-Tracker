@@ -2,17 +2,17 @@ const { client } = require("../db/connect")
 
 const updateStatus = async (req, res) => {
 	const { id } = req.query
-	const body = req.body
+	const { chNo } = req.body
 
 	try {
 		let updated = {}
-		if (parseInt(body?.chNo)) {
+		if (chNo != 0) {
 			console.log("Updating chapters")
 			updated = await client
 				.promise()
 				.query(
 					"UPDATE chapters SET completed = NOT completed where cid=(SELECT id from courses where pcid=?) AND chNo=?",
-					[id, body.chNo, id]
+					[id, chNo, id]
 				)
 				.then(rows => {
 					return { success: true }
@@ -50,8 +50,9 @@ const updateStatus = async (req, res) => {
 		if (updated.success)
 			return res.status(200).json({
 				message: completed
-					? "Congrats! Course copleted"
+					? "Congrats! Course completed"
 					: "Course Updated",
+				congrats: completed ? 1 : 0,
 			})
 	} catch (err) {
 		console.log(err)

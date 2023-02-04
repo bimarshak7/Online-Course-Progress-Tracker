@@ -10,10 +10,16 @@ import {
 	BiTrashAlt,
 	BiCheck,
 	BiEditAlt,
+	BiRepeat,
+	BiRecycle,
 } from "react-icons/bi"
 import { RxCross2 } from "react-icons/rx"
 
-import { getSingleCourse, deleteCourse } from "../redux/actions/course"
+import {
+	getSingleCourse,
+	deleteCourse,
+	updateCourse,
+} from "../redux/actions/course"
 import { Loading, ConfirmDiag } from "../Components"
 
 const Course = () => {
@@ -32,10 +38,31 @@ const Course = () => {
 		dispatch(deleteCourse(params))
 		setDel(prev => ({ ...prev, show: false }))
 	}
+
+	const handleUpdate = chNo => {
+		dispatch(updateCourse({ id, chNo }))
+	}
+
+	const UpdateIc = ({ chNo }) => {
+		if (course.course.completed)
+			return (
+				<BiRecycle
+					className="cursor-pointer  hover:text-cyan-400"
+					onClick={e => handleUpdate(chNo)}
+				/>
+			)
+		else
+			return (
+				<BiCheck
+					className="cursor-pointer  hover:text-cyan-400"
+					onClick={e => handleUpdate(chNo)}
+				/>
+			)
+	}
 	if (!course && isLoading) return <Loading />
 
 	if (!course && !isLoading)
-		return <h1 className="text-2xl">Course Not found</h1>
+		return <h1 className="text-2xl text-center">Oops! Course Not found</h1>
 	return (
 		<div className="flex flex-col gap-4">
 			{del.show && (
@@ -63,7 +90,11 @@ const Course = () => {
 				</div>
 			</div>
 
-			<div className="course-prop bg-red-700 py-4 px-8 rounded-md w-fit">
+			<div
+				className={`course-prop bg-${
+					course.course.completed ? "green" : "red"
+				}-700 py-4 px-8 rounded-md w-fit`}
+			>
 				<li>
 					<BiCategory /> {course.course.category}
 				</li>
@@ -114,7 +145,11 @@ const Course = () => {
 											return (
 												<tr
 													key={chapter.chNo}
-													className="bg-gray-900 hover:bg-lime-700 border-b text-white text-left text-lg"
+													className={`${
+														chapter.completed
+															? "bg-green-900 line-through"
+															: "bg-gray-800"
+													} hover:bg-yellow-600 border-b text-white text-left text-lg transition-all ease-in duration-500`}
 												>
 													<td className="px-6 py-4 ">
 														{chapter.chNo}
@@ -126,7 +161,9 @@ const Course = () => {
 														{chapter.remarks}
 													</td>
 													<td className="py-4 whitespace-nowrap flex gap-2 text-2xl">
-														<BiCheck className="cursor-pointer  hover:text-cyan-400" />
+														<UpdateIc
+															chNo={chapter.chNo}
+														/>
 														<BiEditAlt className="cursor-pointer hover:text-yellow-500" />
 														<RxCross2
 															className="hover:text-rose-900 cursor-pointer"

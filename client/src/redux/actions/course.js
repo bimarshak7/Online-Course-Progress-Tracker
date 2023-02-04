@@ -109,3 +109,29 @@ export const deleteCourse = createAsyncThunk(
 		return { success: true, data: response }
 	}
 )
+
+export const updateCourse = createAsyncThunk(
+	"course/update",
+	async ({ id, chNo }, { dispatch }) => {
+		console.log(id, chNo)
+		const response = await axios
+			.put(`/api/track/?id=${id}`, { chNo: chNo })
+			.then(res => {
+				dispatch(setAlert(res.data.message, "success"))
+				return res.data
+			})
+			.catch(err => {
+				console.error(err.response)
+				dispatch(
+					setAlert(
+						err.response.data.error || "Error fetching data",
+						"danger",
+						true
+					)
+				)
+			})
+
+		if (!response) return { success: false }
+		return { success: true, data: response, chNo: chNo }
+	}
+)
