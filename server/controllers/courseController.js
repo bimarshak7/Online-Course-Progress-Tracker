@@ -59,11 +59,13 @@ const addCourse = async (req, res) => {
 
 const deleteCourse = async (req, res) => {
 	const { id, chNo = 0 } = req.body
+	console.log(req.body)
 	if (!id) {
 		return res.status(500).json({ error: "Missing course pcid." })
 	}
 	try {
-		if (!chNo) {
+		if (chNo === 0) {
+			console.log("hya pani pugxa ta ba")
 			client.query(
 				"DELETE FROM courses WHERE pcid=?",
 				[id],
@@ -87,7 +89,7 @@ const deleteCourse = async (req, res) => {
 		} else {
 			client.query(
 				`DELETE FROM chapters WHERE cid=(SELECT cid FROM courses WHERE pcid=?) AND chNo=?;
-				UPDATE chapters set chNo=chNo-1 where chNo>? and cid=(SELECT id FROM courses where pcid=?);
+				UPDATE chapters set chNo=chNo-1 here chNo>? AND cid=(SELECT id FROM courses where pcid=?);
 				`,
 				[id, parseInt(chNo), parseInt(chNo), id],
 				(error, results) => {
@@ -97,13 +99,15 @@ const deleteCourse = async (req, res) => {
 							.status(500)
 							.json({ error: "Something went wrong." })
 					} else {
-						if (results[1].affectedRows == 0)
+						console.log(results[0])
+						if (results[0].affectedRows === 0)
 							return res.status(404).json({
 								"error": "Chapter or course not found",
 							})
-						return res
-							.status(200)
-							.json({ "message": "Chapter Deleted." })
+						return res.status(200).json({
+							"message": `Chapter ${chNo} Deleted.`,
+							chNo: chNo,
+						})
 					}
 				}
 			)

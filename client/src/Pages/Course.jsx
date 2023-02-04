@@ -20,7 +20,7 @@ const Course = () => {
 	const { id } = useParams()
 	const course = useSelector(state => state.course.singleCourse)
 	const isLoading = useSelector(state => state.misc.isLoading)
-	const [del, setDel] = useState(false)
+	const [del, setDel] = useState({ show: false, title: "", ch: 0 })
 
 	const dispatch = useDispatch()
 
@@ -28,8 +28,9 @@ const Course = () => {
 		if (id) dispatch(getSingleCourse(id))
 	}, [id])
 
-	const handleDelete = pcid => {
-		dispatch(deleteCourse(pcid))
+	const handleDelete = params => {
+		dispatch(deleteCourse(params))
+		setDel(prev => ({ ...prev, show: false }))
 	}
 	if (!course && isLoading) return <Loading />
 
@@ -37,12 +38,12 @@ const Course = () => {
 		return <h1 className="text-2xl">Course Not found</h1>
 	return (
 		<div className="flex flex-col gap-4">
-			{del && (
+			{del.show && (
 				<ConfirmDiag
-					title="Delete Course?"
+					title={del.title}
 					setShow={setDel}
 					yesFunc={handleDelete}
-					params={course.course.pcid}
+					params={{ id: course.course.pcid, chNo: del.ch }}
 				/>
 			)}
 			<div className="flex gap-12">
@@ -50,7 +51,13 @@ const Course = () => {
 				<div className="flex gap-2">
 					<BiEdit className="text-2xl leading-5 cursor-pointer hover:text-yellow-500" />
 					<BiTrashAlt
-						onClick={e => setDel(true)}
+						onClick={e =>
+							setDel({
+								ch: 0,
+								show: true,
+								title: "Delete Course.",
+							})
+						}
 						className="text-2xl leading-5 cursor-pointer hover:text-rose-800"
 					/>
 				</div>
@@ -121,7 +128,16 @@ const Course = () => {
 													<td className="py-4 whitespace-nowrap flex gap-2 text-2xl">
 														<BiCheck className="cursor-pointer  hover:text-cyan-400" />
 														<BiEditAlt className="cursor-pointer hover:text-yellow-500" />
-														<RxCross2 className="hover:text-rose-900 cursor-pointer" />
+														<RxCross2
+															className="hover:text-rose-900 cursor-pointer"
+															onClick={e =>
+																setDel({
+																	ch: chapter.chNo,
+																	show: true,
+																	title: "Delete Chapter.",
+																})
+															}
+														/>
 													</td>
 												</tr>
 											)

@@ -84,12 +84,14 @@ export const getSingleCourse = createAsyncThunk(
 
 export const deleteCourse = createAsyncThunk(
 	"course/delete",
-	async (pcid, { dispatch }) => {
+	async (params, { dispatch }) => {
 		const response = await axios
-			.delete(`/api/course`, { data: { id: pcid } })
+			.delete(`/api/course`, { data: params })
 			.then(res => {
-				dispatch(setAlert("Course Deleted!", "success"))
-				window.location.replace("/home")
+				dispatch(setAlert(res.data.message, "success"))
+				setTimeout(() => {
+					if (params.chNo == 0) window.location.replace("/home")
+				}, 2000)
 				return res.data
 			})
 			.catch(err => {
@@ -104,6 +106,6 @@ export const deleteCourse = createAsyncThunk(
 			})
 		if (!response) return { success: false }
 
-		return { success: true, data: response.data }
+		return { success: true, data: response }
 	}
 )

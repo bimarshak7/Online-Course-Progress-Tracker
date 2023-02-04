@@ -1,8 +1,13 @@
 import Popup from "./Popup"
 
 const ConfirmDiag = ({ setShow, yesFunc, title = "", params = null }) => {
+	const setDisp = () => {
+		setShow(prev => {
+			return { ...prev, show: false }
+		})
+	}
 	return (
-		<Popup title={title}>
+		<Popup title={title} setShow={setDisp}>
 			<div className="flex flex-col gap-4">
 				<h2 className="text-xl"> Are you sure?</h2>
 				<div className="flex gap-8">
@@ -14,7 +19,11 @@ const ConfirmDiag = ({ setShow, yesFunc, title = "", params = null }) => {
 					</button>
 					<button
 						className="button bg-red-600"
-						onClick={e => setShow(false)}
+						onClick={e =>
+							setShow(prev => {
+								return { ...prev, show: false }
+							})
+						}
 					>
 						No
 					</button>
