@@ -16,13 +16,11 @@ const courseSlice = createSlice({
 			if (payload?.data) state.singleCourse = payload.data
 		})
 		builder.addCase(deleteCourse.fulfilled, (state, { payload }) => {
-			console.log("Here ", payload, state)
 			if (payload?.data?.chNo) {
-				let chaptersUp = state.singleCourse.chapters.filter(
-					chapter => chapter.chNo !== payload.data.chNo
-				)
-				console.log(chaptersUp)
-				// state.singleCourse.chapters = chaptersUp
+				let chaptersUp = JSON.parse(
+					JSON.stringify(state.singleCourse.chapters)
+				).filter(chapter => chapter.chNo != payload.data.chNo)
+				state.singleCourse.chapters = chaptersUp
 			}
 		})
 	},
