@@ -39,6 +39,7 @@ const Course = () => {
 		<div className="flex flex-col gap-4">
 			{del && (
 				<ConfirmDiag
+					title="Delete Course?"
 					setShow={setDel}
 					yesFunc={handleDelete}
 					params={course.course.pcid}

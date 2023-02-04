@@ -1,8 +1,8 @@
 import Popup from "./Popup"
 
-const ConfirmDiag = ({ setShow, yesFunc, params = null }) => {
+const ConfirmDiag = ({ setShow, yesFunc, title = "", params = null }) => {
 	return (
-		<Popup title={"Delete Course"}>
+		<Popup title={title}>
 			<div className="flex flex-col gap-4">
 				<h2 className="text-xl"> Are you sure?</h2>
 				<div className="flex gap-8">

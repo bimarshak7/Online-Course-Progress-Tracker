@@ -58,53 +58,56 @@ const addCourse = async (req, res) => {
 }
 
 const deleteCourse = async (req, res) => {
-	const { id } = req.body
+	const { id, chNo = 0 } = req.body
 	if (!id) {
 		return res.status(500).json({ error: "Missing course pcid." })
 	}
 	try {
-		client.query(
-			"DELETE FROM courses WHERE pcid=?",
-			[id],
-			(error, results) => {
-				if (error) {
-					console.log(error)
-					return res
-						.status(500)
-						.json({ error: "Something went wrong." })
-				} else
-					return res.status(200).json({ "message": "Course Deleted" })
-			}
-		)
-	} catch (err) {
-		console.log(err)
-		return res.status(500).json({ error: "Something went wrong." })
-	}
-}
-
-const deleteChapter = async (req, res) => {
-	const { pcid, chNo } = req.body
-	if (!pcid || !chNo) {
-		return res.status(500).json({ error: "Missing one or more fields." })
-	}
-	try {
-		client.query(
-			`DELETE FROM chapters WHERE cid=(SELECT id FROM courses where pcid=?) and chNo=?;
-			UPDATE courses set chapters=chapters-1 where pcid=?;
-			UPDATE chapters set chNo=chNo-1 where chNo>? and cid=(SELECT id FROM courses where pcid=?);`,
-			[pcid, parseInt(chNo), pcid, parseInt(chNo), pcid],
-			(error, results) => {
-				if (error) {
-					console.log(error)
-					return res
-						.status(500)
-						.json({ error: "Something went wrong." })
-				} else
-					return res
-						.status(200)
-						.json({ "message": "Chapter Deleted" })
-			}
-		)
+		if (!chNo) {
+			client.query(
+				"DELETE FROM courses WHERE pcid=?",
+				[id],
+				(error, results) => {
+					if (error) {
+						console.log(error)
+						return res
+							.status(500)
+							.json({ error: "Something went wrong." })
+					} else {
+						if (results.affectedRows == 0)
+							return res
+								.status(404)
+								.json({ "error": "Course not found" })
+						return res
+							.status(200)
+							.json({ "message": "Course Deleted" })
+					}
+				}
+			)
+		} else {
+			client.query(
+				`DELETE FROM chapters WHERE cid=(SELECT cid FROM courses WHERE pcid=?) AND chNo=?;
+				UPDATE chapters set chNo=chNo-1 where chNo>? and cid=(SELECT id FROM courses where pcid=?);
+				`,
+				[id, parseInt(chNo), parseInt(chNo), id],
+				(error, results) => {
+					if (error) {
+						console.log(error)
+						return res
+							.status(500)
+							.json({ error: "Something went wrong." })
+					} else {
+						if (results[1].affectedRows == 0)
+							return res.status(404).json({
+								"error": "Chapter or course not found",
+							})
+						return res
+							.status(200)
+							.json({ "message": "Chapter Deleted." })
+					}
+				}
+			)
+		}
 	} catch (err) {
 		console.log(err)
 		return res.status(500).json({ error: "Something went wrong." })
@@ -185,6 +188,5 @@ module.exports = {
 	addCourse,
 	listCourse,
 	deleteCourse,
-	deleteChapter,
 	getCourse,
 }
