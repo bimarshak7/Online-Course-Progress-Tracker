@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS courses (
 );
 
 CREATE TABLE IF NOT EXISTS chapters (
-  id              SERIAL,
   title           VARCHAR(50) NOT NULL,
   remarks         VARCHAR(50) DEFAULT '',
   chNo            INT NOT NULL,
@@ -37,6 +36,6 @@ CREATE TABLE IF NOT EXISTS chapters (
   date_completed  DATE,
   cid            INT,
   
-  PRIMARY KEY(id),
+  PRIMARY KEY(chNo,cid),
   FOREIGN KEY (cid) REFERENCES courses(id) ON DELETE CASCADE
 );

@@ -187,9 +187,72 @@ const getCourse = async (req, res) => {
 	}
 }
 
+const updateCourse = async (req, res) => {
+	const { course, chapters } = req.body
+	const { id } = req.query
+	// console.log("Course:", course, "\nChapter:", chapter, "\nid:", id)
+	try {
+		let success = true
+		if (course) {
+			let courseU = await client
+				.promise()
+				.query("UPDATE courses SET ? WHERE pcid=?", [course, id])
+				.then(([rows, fields]) => {
+					success = true
+					return rows
+				})
+				.catch(err => {
+					success = false
+					console.log(err)
+					return false
+				})
+		}
+		if (chapters) {
+			let cid = await client
+				.promise()
+				.query("SELECT id from courses WHERE pcid=?", [id])
+				.then(([rows, fields]) => {
+					return rows[0].id
+				})
+				.catch(err => {
+					console.log(err)
+					return false
+				})
+
+			let values = []
+			chapters.forEach(chapter => {
+				const { title, remarks, chNo } = chapter
+				if (title && remarks && chNo) chapter.cid = cid
+				values.push(Object.values(chapter))
+			})
+
+			let chapterU = await client
+				.promise()
+				.query(
+					"REPLACE INTO chapters(title,remarks,chNo,cid) VALUES ?",
+					[values, id]
+				)
+				.then(([rows, fields]) => {
+					return rows
+				})
+				.catch(err => {
+					success = false
+					console.log(err)
+					return false
+				})
+		}
+		if (success)
+			return res.status(200).json({ "message": "Update Success" })
+	} catch (err) {
+		console.log(err)
+	}
+	return res.status(500).json({ error: "Something went wrong." })
+}
+
 module.exports = {
 	addCourse,
 	listCourse,
 	deleteCourse,
 	getCourse,
+	updateCourse,
 }
