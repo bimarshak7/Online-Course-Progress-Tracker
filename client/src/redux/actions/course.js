@@ -16,6 +16,7 @@ export const addCourse = createAsyncThunk(
 			})
 			.then(res => {
 				dispatch(setAlert("New Course Added!", "success", true))
+				dispatch(listCourses(0))
 				return res.data
 			})
 			.catch(err => {
@@ -133,5 +134,37 @@ export const updateCourse = createAsyncThunk(
 
 		if (!response) return { success: false }
 		return { success: true, data: response, chNo: chNo }
+	}
+)
+
+export const editCourse = createAsyncThunk(
+	"course/edit",
+	async (data, { dispatch }) => {
+		console.log("lol")
+		let { course, chapters } = data.change
+
+		const response = await axios
+			.put(`/api/course/?id=${data.id}`, {
+				course: course,
+				chapters: Object.values(chapters),
+			})
+			.then(res => {
+				dispatch(setAlert(res.data.message, "success"))
+				dispatch(getSingleCourse(data.id))
+				return res.data
+			})
+			.catch(err => {
+				console.error(err.response)
+				dispatch(
+					setAlert(
+						err.response.data.error || "Error fetching data",
+						"danger",
+						true
+					)
+				)
+			})
+
+		if (!response) return { success: false }
+		return { success: true, data: response }
 	}
 )

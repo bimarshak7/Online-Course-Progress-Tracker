@@ -190,7 +190,7 @@ const getCourse = async (req, res) => {
 const updateCourse = async (req, res) => {
 	const { course, chapters } = req.body
 	const { id } = req.query
-	// console.log("Course:", course, "\nChapter:", chapter, "\nid:", id)
+	console.log("Course:", course, "\nChapter:", chapters, "\nid:", id)
 	try {
 		let success = true
 		if (course) {
@@ -207,7 +207,7 @@ const updateCourse = async (req, res) => {
 					return false
 				})
 		}
-		if (chapters) {
+		if (chapters.length > 0) {
 			let cid = await client
 				.promise()
 				.query("SELECT id from courses WHERE pcid=?", [id])

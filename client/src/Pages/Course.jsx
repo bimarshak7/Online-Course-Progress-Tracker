@@ -19,6 +19,7 @@ import {
 	getSingleCourse,
 	deleteCourse,
 	updateCourse,
+	editCourse,
 } from "../redux/actions/course"
 import { Loading, ConfirmDiag } from "../Components"
 
@@ -27,6 +28,8 @@ const Course = () => {
 	const course = useSelector(state => state.course.singleCourse)
 	const isLoading = useSelector(state => state.misc.isLoading)
 	const [del, setDel] = useState({ show: false, title: "", ch: 0 })
+	const [edit, setEdit] = useState({ course: false, ch: 0 })
+	const [change, setChange] = useState({ chapters: {} })
 
 	const dispatch = useDispatch()
 
@@ -42,7 +45,40 @@ const Course = () => {
 	const handleUpdate = chNo => {
 		dispatch(updateCourse({ id, chNo }))
 	}
-
+	const clickEdit = no => {
+		if (no == 0) {
+			setEdit(prev => ({
+				...prev,
+				course: !edit.course,
+			}))
+			if (!change.course)
+				setChange({
+					...change,
+					course: {
+						name: course.course.name,
+						category: course.course.category,
+					},
+				})
+		} else {
+			setEdit(prev => ({
+				...prev,
+				ch: no == prev.ch ? 0 : no,
+			}))
+			if (!change.chapters[no]) {
+				let { title, remarks } = course.chapters[no - 1]
+				let up = change
+				change.chapters[no] = {
+					title: title,
+					remarks: remarks,
+					chNo: no,
+				}
+				setChange(up)
+			}
+		}
+	}
+	const handleSave = () => {
+		dispatch(editCourse({ change, id }))
+	}
 	const UpdateIc = ({ chNo }) => {
 		if (course.course.completed)
 			return (
@@ -74,9 +110,32 @@ const Course = () => {
 				/>
 			)}
 			<div className="flex gap-12">
-				<h1 className="text-3xl font-semibold">{course.course.name}</h1>
+				<h1 className="text-3xl font-semibold">
+					{edit.course ? (
+						<input
+							className="bg-blue-900 h-8 my-auto px-2 w-min py-1 "
+							onChange={e =>
+								setChange({
+									...change,
+									course: {
+										...change.course,
+										name: e.target.value,
+									},
+								})
+							}
+							value={change.course.name}
+						/>
+					) : change.course ? (
+						change.course.name
+					) : (
+						course.course.name
+					)}
+				</h1>
 				<div className="flex gap-2">
-					<BiEdit className="text-2xl leading-5 cursor-pointer hover:text-yellow-500" />
+					<BiEdit
+						className="text-2xl leading-5 cursor-pointer hover:text-yellow-500"
+						onClick={e => clickEdit(0)}
+					/>
 					<BiTrashAlt
 						onClick={e =>
 							setDel({
@@ -91,12 +150,31 @@ const Course = () => {
 			</div>
 
 			<div
-				className={`course-prop bg-${
-					course.course.completed ? "green" : "red"
-				}-700 py-4 px-8 rounded-md w-fit`}
+				className={`course-prop ${
+					course.course.completed ? "bg-green-800" : "bg-red-800"
+				} py-4 px-8 rounded-md w-fit`}
 			>
 				<li>
-					<BiCategory /> {course.course.category}
+					<BiCategory />
+					{edit.course ? (
+						<input
+							onChange={e =>
+								setChange({
+									...change,
+									course: {
+										...change.course,
+										category: e.target.value,
+									},
+								})
+							}
+							value={change.course.category}
+							className="bg-blue-900 h-8 my-auto px-2 w-24"
+						/>
+					) : change.course ? (
+						change.course.category
+					) : (
+						course.course.category
+					)}
 				</li>
 				<li>
 					<BiBook />
@@ -121,7 +199,7 @@ const Course = () => {
 			<h2 className="text-2xl font-bold mt-4 underline">Chapters</h2>
 			<div className="flex flex-col">
 				<div className="overflow-x-auto sm:-mx-6 lg:-mx-8 ">
-					<div className="py-2 inline-block w-4/5 sm:px-6 lg:px-8">
+					<div className="py-2 inline-block lg:w-4/5 sm:pl-6 lg:pl-8">
 						<div className="overflow-hidden rounded-md">
 							<table className="min-w-full ">
 								<thead className="font-bold border-b bg-slate-800 text-lg">
@@ -162,16 +240,104 @@ const Course = () => {
 														{chapter.chNo}
 													</td>
 													<td className="px-6 py-4 ">
-														{chapter.title}
+														{edit.ch ==
+														chapter.chNo ? (
+															<input
+																className="bg-gray-700"
+																value={
+																	change
+																		.chapters[
+																		chapter
+																			.chNo
+																	].title
+																}
+																onChange={e =>
+																	setChange({
+																		...change,
+																		chapters:
+																			{
+																				...change.chapters,
+																				[chapter.chNo]:
+																					{
+																						...change
+																							.chapters[
+																							chapter
+																								.chNo
+																						],
+																						title: e
+																							.target
+																							.value,
+																					},
+																			},
+																	})
+																}
+															/>
+														) : change.chapters[
+																chapter.chNo
+														  ] ? (
+															change.chapters[
+																chapter.chNo
+															].title
+														) : (
+															chapter.title
+														)}
 													</td>
 													<td className="py-4 whitespace-nowrap">
-														{chapter.remarks}
+														{edit.ch ==
+														chapter.chNo ? (
+															<input
+																className="bg-gray-700 w-min"
+																value={
+																	change
+																		.chapters[
+																		chapter
+																			.chNo
+																	].remarks
+																}
+																onChange={e =>
+																	setChange({
+																		...change,
+																		chapters:
+																			{
+																				...change.chapters,
+																				[chapter.chNo]:
+																					{
+																						...change
+																							.chapters[
+																							chapter
+																								.chNo
+																						],
+																						remarks:
+																							e
+																								.target
+																								.value,
+																					},
+																			},
+																	})
+																}
+															/>
+														) : change.chapters[
+																chapter.chNo
+														  ] ? (
+															change.chapters[
+																chapter.chNo
+															].remarks
+														) : (
+															chapter.remarks
+														)}
 													</td>
-													<td className="py-4 whitespace-nowrap flex gap-2 text-2xl">
+													<td className="py-4 px-4 whitespace-nowrap flex gap-2 text-2xl">
 														<UpdateIc
 															chNo={chapter.chNo}
 														/>
-														<BiEditAlt className="cursor-pointer hover:text-yellow-500" />
+														<BiEditAlt
+															className="cursor-pointer hover:text-yellow-500"
+															onClick={e =>
+																clickEdit(
+																	chapter.chNo
+																)
+															}
+														/>
 														<RxCross2
 															className="hover:text-rose-900 cursor-pointer"
 															onClick={e =>
@@ -197,6 +363,17 @@ const Course = () => {
 					</div>
 				</div>
 			</div>
+			{(change.course || Object.keys(change.chapters).length > 0) && (
+				<div className="absolute bg-slate-900 p-3 rounded-md bottom-5 left-1/2">
+					Changes Made!
+					<button
+						className="bg-yellow-700 rounded-md p-1 ml-2"
+						onClick={handleSave}
+					>
+						Save Changes
+					</button>
+				</div>
+			)}
 		</div>
 	)
 }
