@@ -12,6 +12,7 @@ import {
 	BiEditAlt,
 	BiTrophy,
 	BiRecycle,
+	BiSave,
 } from "react-icons/bi"
 import { RxCross2 } from "react-icons/rx"
 
@@ -78,6 +79,7 @@ const Course = () => {
 	}
 	const handleSave = () => {
 		dispatch(editCourse({ change, id }))
+		setChange({ chapters: {} })
 	}
 	const UpdateIc = ({ chNo }) => {
 		if (course.course.completed)
@@ -113,7 +115,7 @@ const Course = () => {
 				<h1 className="text-3xl font-semibold">
 					{edit.course ? (
 						<input
-							className="bg-blue-900 h-8 my-auto px-2 w-min py-1 "
+							className="bg-blue-900 h-8 my-auto px-2 w-min pb-1 rounded-sm"
 							onChange={e =>
 								setChange({
 									...change,
@@ -168,7 +170,7 @@ const Course = () => {
 								})
 							}
 							value={change.course.category}
-							className="bg-blue-900 h-8 my-auto px-2 w-24"
+							className="bg-blue-900 h-8 my-auto px-2 w-24 rounded-"
 						/>
 					) : change.course ? (
 						change.course.category
@@ -243,7 +245,7 @@ const Course = () => {
 														{edit.ch ==
 														chapter.chNo ? (
 															<input
-																className="bg-gray-700"
+																className="bg-gray-700 rounded-sm px-1"
 																value={
 																	change
 																		.chapters[
@@ -286,7 +288,7 @@ const Course = () => {
 														{edit.ch ==
 														chapter.chNo ? (
 															<input
-																className="bg-gray-700 w-min"
+																className="bg-gray-700 w-min rounded-sm px-1"
 																value={
 																	change
 																		.chapters[
@@ -327,9 +329,14 @@ const Course = () => {
 														)}
 													</td>
 													<td className="py-4 px-4 whitespace-nowrap flex gap-2 text-2xl">
-														<UpdateIc
-															chNo={chapter.chNo}
-														/>
+														{edit.ch !=
+															chapter.chNo && (
+															<UpdateIc
+																chNo={
+																	chapter.chNo
+																}
+															/>
+														)}
 														<BiEditAlt
 															className="cursor-pointer hover:text-yellow-500"
 															onClick={e =>

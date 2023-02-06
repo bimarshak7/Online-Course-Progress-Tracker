@@ -15,7 +15,7 @@ export const addCourse = createAsyncThunk(
 				category: category,
 			})
 			.then(res => {
-				dispatch(setAlert("New Course Added!", "success", true))
+				dispatch(setAlert("New Course Added!", "success"))
 				dispatch(listCourses(0))
 				return res.data
 			})

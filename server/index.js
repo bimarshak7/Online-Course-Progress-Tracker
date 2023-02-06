@@ -7,6 +7,7 @@ const app = express()
 const authRouter = require("./routes/auth.js")
 const courseRouter = require("./routes/course")
 const trackRouter = require("./routes/track")
+const reportRouter = require("./routes/report")
 
 const { connectDB } = require("./db/connect")
 
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRouter)
 app.use("/api/course", courseRouter)
 app.use("/api/track", trackRouter)
+app.use("/api/report", reportRouter)
 
 const port = process.env.PORT || 5000
 

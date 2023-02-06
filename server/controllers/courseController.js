@@ -31,7 +31,7 @@ const addCourse = async (req, res) => {
 			chapter.chNo = parseInt(idx) + 1
 			if (chapter.title.length > 0) values.push(Object.values(chapter))
 		})
-		console.log(values)
+
 		if (chapters.length > 0) {
 			let results2 = await client
 				.promise()
@@ -190,7 +190,7 @@ const getCourse = async (req, res) => {
 const updateCourse = async (req, res) => {
 	const { course, chapters } = req.body
 	const { id } = req.query
-	console.log("Course:", course, "\nChapter:", chapters, "\nid:", id)
+	// console.log("Course:", course, "\nChapter:", chapters, "\nid:", id)
 	try {
 		let success = true
 		if (course) {
