@@ -14,7 +14,12 @@ export const registerAc = createAsyncThunk(
 				password: password1,
 			})
 			.then(res => {
-				dispatch(setAlert("Account created!", "success", true))
+				dispatch(
+					setAlert("User registered, redirecting to login", "success")
+				)
+				setTimeout(() => {
+					window.location.replace("/")
+				}, 3000)
 				return res.data
 			})
 			.catch(err => {
@@ -36,7 +41,7 @@ export const login = createAsyncThunk(
 				password: password1,
 			})
 			.then(res => {
-				dispatch(setAlert(res.data.message, "success"))
+				dispatch(setAlert("res.data.message", "success"))
 				return res.data
 			})
 			.catch(err => {
@@ -69,7 +74,6 @@ export const verify = createAsyncThunk(
 			})
 			.catch(err => {
 				if (alert) {
-					dispatch(logout(0))
 					dispatch(
 						setAlert(
 							err.response?.data?.error ||
@@ -77,7 +81,7 @@ export const verify = createAsyncThunk(
 							"danger"
 						)
 					)
-					// window.location.replace("/")
+					window.location.replace("/")
 				}
 				return false
 			})

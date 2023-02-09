@@ -56,7 +56,7 @@ const Report = () => {
 	return (
 		<div className="flex flex-col gap-8">
 			<div className="flex flex-col">
-				<h1 className="text-xl font-bold">
+				<h1 className="text-xl font-head">
 					Most recently completed course
 				</h1>
 				<div class="flex flex-col">
@@ -64,7 +64,7 @@ const Report = () => {
 						<div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
 							<div class="overflow-hidden">
 								<table class="min-w-full">
-									<thead class="font-bold border-b bg-slate-800">
+									<thead class="font-body border-b bg-slate-800">
 										<tr>
 											<th
 												scope="col"
@@ -90,7 +90,7 @@ const Report = () => {
 										{report?.mostRecent.map(
 											(course, idx) => {
 												return (
-													<tr class="bg-gray-800 border-b transition duration-300 ease-in-out hover:bg-green-900">
+													<tr class="font-body bg-gray-800 border-b transition duration-300 ease-in-out hover:bg-green-900">
 														<td class="px-6 py-4">
 															{idx + 1}
 														</td>
@@ -113,7 +113,7 @@ const Report = () => {
 			</div>
 			<div className="flex gap-16">
 				<div className="flex flex-col gap-6">
-					<h1 className="text-xl font-semibold">
+					<h1 className="text-xl font-semibold font-head">
 						Course enrolled by category
 					</h1>
 					<div className="h-80 w-80 mx-auto">
@@ -121,7 +121,7 @@ const Report = () => {
 					</div>
 				</div>
 				<div className="flex flex-col gap-6">
-					<h1 className="text-xl font-semibold">
+					<h1 className="text-xl font-semibold font-head">
 						Chapter completed in last seven days
 					</h1>
 					<div className="h-80 w-80">

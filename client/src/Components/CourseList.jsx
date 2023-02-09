@@ -25,7 +25,7 @@ const CourseList = () => {
 			</div>
 			{show && <CourseForm setShow={setShow} />}
 			<div className="">
-				<h2 className="text-2xl mb-4">My Courses</h2>
+				<h2 className="text-2xl mb-4 font-head">My Courses</h2>
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 					{courses &&
 						courses.map(course => {

@@ -112,7 +112,7 @@ const Course = () => {
 				/>
 			)}
 			<div className="flex gap-12">
-				<h1 className="text-3xl font-semibold">
+				<h1 className="text-3xl font-head">
 					{edit.course ? (
 						<input
 							className="bg-blue-900 h-8 my-auto px-2 w-min pb-1 rounded-sm"
@@ -154,7 +154,7 @@ const Course = () => {
 			<div
 				className={`course-prop ${
 					course.course.completed ? "bg-green-800" : "bg-red-800"
-				} py-4 px-8 rounded-md w-fit`}
+				} py-4 px-8 rounded-md w-fit font-body`}
 			>
 				<li>
 					<BiCategory />
@@ -198,13 +198,15 @@ const Course = () => {
 					)}
 				</li>
 			</div>
-			<h2 className="text-2xl font-bold mt-4 underline">Chapters</h2>
+			<h2 className="text-2xl font-bold mt-4 font-head underline">
+				Chapters
+			</h2>
 			<div className="flex flex-col">
 				<div className="overflow-x-auto sm:-mx-6 lg:-mx-8 ">
 					<div className="py-2 inline-block lg:w-4/5 sm:pl-6 lg:pl-8">
 						<div className="overflow-hidden rounded-md">
 							<table className="min-w-full ">
-								<thead className="font-bold border-b bg-slate-800 text-lg">
+								<thead className="border-b bg-slate-800 font-sm font-head">
 									<tr>
 										<th
 											scope="col"
@@ -236,7 +238,7 @@ const Course = () => {
 														chapter.completed
 															? "bg-green-900 line-through"
 															: "bg-gray-800"
-													} hover:bg-yellow-600 border-b text-white text-left text-lg transition-all ease-in duration-500`}
+													} hover:bg-yellow-600 border-b font-body text-white text-left text-lg transition-all ease-in duration-500`}
 												>
 													<td className="px-6 py-4 ">
 														{chapter.chNo}

@@ -6,6 +6,10 @@ module.exports = {
 			colors: {
 				bg1: "rgb(2, 3, 20)",
 			},
+			fontFamily: {
+				"head": ["Oswald", "sans-serif"],
+				"body": ["Inter", "sans-serif"],
+			},
 		},
 	},
 	plugins: [],

@@ -50,11 +50,14 @@ const Login = ({ register }) => {
 			<div className="box1">
 				<div className="flex flex-col ml-4 md:gap-1">
 					<Logo small={false} full={true} />
-					<h1 className="text-2xl md:text-3xl font-bold text-center py-2">
+					<h1 className="text-2xl md:text-3xl font-bold text-center py-2 font-head">
 						{register ? "Register" : "Login"}
 					</h1>
 				</div>
-				<form onSubmit={onSubmit} className="flex flex-col mx-4 mt-4">
+				<form
+					onSubmit={onSubmit}
+					className="flex flex-col mx-4 mt-4 font-body font-semibold"
+				>
 					{register && (
 						<FormText
 							name="name"
