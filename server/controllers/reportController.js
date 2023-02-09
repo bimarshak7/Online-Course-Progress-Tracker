@@ -28,9 +28,26 @@ const getReport = async (req, res) => {
 			.catch(err => {
 				console.log(err)
 			})
+
+		const mostRecent = await client
+			.promise()
+			.query(
+				"SELECT name from courses WHERE  id IN(SELECT cid FROM chapters ORDER By date_completed) AND puid=? LIMIT 3;",
+				[puid, puid]
+			)
+			.then((rows, fields) => {
+				return rows[0]
+			})
+			.catch(err => {
+				console.log(err)
+			})
 		return res.status(200).json({
 			message: "Success",
-			data: { courseCat: courseCat, chapterWeek: chapterWeek },
+			data: {
+				courseCat: courseCat,
+				chapterWeek: chapterWeek,
+				mostRecent: mostRecent,
+			},
 		})
 	} catch (err) {
 		console.log(err)

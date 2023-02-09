@@ -3,6 +3,7 @@ import axios from "axios"
 
 import { setAlert } from "./misc"
 import { setLoading } from "../reducers/misc"
+import { getUser } from "./auth"
 
 export const addCourse = createAsyncThunk(
 	"course/add",
@@ -119,6 +120,7 @@ export const updateCourse = createAsyncThunk(
 			.put(`/api/track/?id=${id}`, { chNo: chNo })
 			.then(res => {
 				dispatch(setAlert(res.data.message, "success"))
+				dispatch(getUser(0))
 				return res.data
 			})
 			.catch(err => {
@@ -166,5 +168,29 @@ export const editCourse = createAsyncThunk(
 
 		if (!response) return { success: false }
 		return { success: true, data: response }
+	}
+)
+
+export const getreport = createAsyncThunk(
+	"course/report",
+	async ({ dispatch }) => {
+		const response = await axios
+			.get(`/api/report`)
+			.then(res => {
+				return res.data
+			})
+			.catch(err => {
+				console.error(err.response)
+				dispatch(
+					setAlert(
+						err.response.data.error || "Error fetching data",
+						"danger",
+						true
+					)
+				)
+			})
+
+		if (!response) return { success: false }
+		return { success: true, data: response.data }
 	}
 )

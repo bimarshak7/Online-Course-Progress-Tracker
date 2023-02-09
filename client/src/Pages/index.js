@@ -1,6 +1,6 @@
 import Login from "./Login"
 import Home from "./Home"
-import Feed from "./Feed"
+import Report from "./Report"
 import Course from "./Course"
 
-export { Login, Home, Feed, Course }
+export { Login, Home, Report, Course }

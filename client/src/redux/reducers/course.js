@@ -5,6 +5,7 @@ import {
 	getSingleCourse,
 	deleteCourse,
 	updateCourse,
+	getreport,
 } from "../actions/course"
 
 const initialState = {}
@@ -38,6 +39,9 @@ const courseSlice = createSlice({
 			if (payload?.chNo != 0)
 				state.singleCourse.chapters[payload.chNo - 1].completed =
 					!state.singleCourse.chapters[payload.chNo - 1].completed
+		})
+		builder.addCase(getreport.fulfilled, (state, { payload }) => {
+			state.report = payload.data
 		})
 	},
 })

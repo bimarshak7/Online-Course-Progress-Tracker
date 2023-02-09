@@ -1,9 +1,12 @@
 import { useState, useRef } from "react"
 import { useDispatch } from "react-redux"
 import { NavLink, Link } from "react-router-dom"
-import { AiFillCaretDown, AiOutlineSearch } from "react-icons/ai"
+import {
+	AiFillCaretDown,
+	AiOutlineSearch,
+	AiOutlineLineChart,
+} from "react-icons/ai"
 import { GiStairsGoal } from "react-icons/gi"
-import { CgFeed } from "react-icons/cg"
 
 import { Logo } from "../Components"
 import { logout } from "../redux/actions/auth"
@@ -21,11 +24,11 @@ const NavBar = () => {
 			<div className="w-1/2 lg:1/3">
 				<Logo small={true} />
 			</div>
-			<div className="flex gap-8 w-1/2 lg:1/3 p-2 text-4xl lg:text-4xl">
+			<div className="flex gap-8 w-1/2 lg:1/3 text-4xl lg:text-4xl">
 				<NavLink
 					className={({ isActive }) =>
 						isActive
-							? "border-rose-700 border-b-2 px-2 rounded-b"
+							? "border-rose-700 border-b-2 px-2 py-1"
 							: "px-2"
 					}
 					to="/home"
@@ -35,23 +38,15 @@ const NavBar = () => {
 				<NavLink
 					className={({ isActive }) =>
 						isActive
-							? "border-rose-700 border-b-2 px-2 rounded-b"
+							? "border-rose-700 border-b-2 px-2 py-1"
 							: "px-2"
 					}
-					to="/feed"
+					to="/home/report"
 				>
-					<CgFeed />
+					<AiOutlineLineChart />
 				</NavLink>
 			</div>
-			<div className="flex gap-8 w-1/3 my-auto pr-4">
-				<div className="flex rounded-lg bg-bg1 py-1">
-					<AiOutlineSearch className="text-3xl pl-1" />
-					<input
-						className="bg-bg1 px-4 rounded-md outline-none"
-						placeholder="Search Coursdo"
-					/>
-				</div>
-
+			<div className="flex gap-8 my-auto pr-4">
 				<AiFillCaretDown
 					className={`${
 						show ? "rotate-180" : ""
@@ -66,7 +61,7 @@ const NavBar = () => {
 						></div>
 						<ul
 							ref={ref}
-							className="header-drop absolute z-99 right-0 mt-32 p-2 w-36 text-center border-blue border-2 rounded-md font-bold"
+							className="header-drop absolute z-99 right-4 mt-32 p-2 w-36 text-center border-blue border-2 rounded-md font-bold"
 						>
 							<Link to="/#">
 								<li onClick={e => setShow(false)}>Settings</li>
