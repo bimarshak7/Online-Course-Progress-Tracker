@@ -9,7 +9,7 @@ const Logo = ({ small }) => {
 						? "/src/assets/logoSmall.png"
 						: "/src/assets/logoFull.png"
 				}
-				className={`${small ? "w-40 h-10" : "h-min w-min"} `}
+				className={`${small ? "w-40 h-10" : "h-16 mx-auto"} `}
 			/>
 		</Link>
 	)

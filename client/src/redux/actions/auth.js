@@ -5,11 +5,12 @@ import { setAlert } from "./misc"
 
 export const registerAc = createAsyncThunk(
 	"auth/register",
-	async ({ name, email, password1, password2 }, { dispatch }) => {
+	async ({ name, email, password1, path }, { dispatch }) => {
 		const response = await axios
 			.post(`/api/auth/register`, {
 				name: name,
 				email: email,
+				path: path,
 				password: password1,
 			})
 			.then(res => {
@@ -68,6 +69,7 @@ export const verify = createAsyncThunk(
 			})
 			.catch(err => {
 				if (alert) {
+					dispatch(logout(0))
 					dispatch(
 						setAlert(
 							err.response?.data?.error ||

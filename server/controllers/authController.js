@@ -4,7 +4,8 @@ const bcrypt = require("bcrypt")
 const { generateToken } = require("../utils/jwt")
 
 const register = async (req, res) => {
-	const { name, email, password } = req.body
+	const { name, email, password, path } = req.body
+	console.log(req.body)
 	if (!name || !email || !password) {
 		return res.status(500).json({ error: "Missing one or more field." })
 	}
@@ -28,8 +29,8 @@ const register = async (req, res) => {
 		const salt = await bcrypt.genSalt(10)
 
 		client.query(
-			"INSERT INTO users (name, email,password) VALUES (?, ?, ?) RETURNING *",
-			[name, email, await bcrypt.hash(password, salt)],
+			"INSERT INTO users (name, email,path,password) VALUES (?, ?, ?,?) RETURNING *",
+			[name, email, path, await bcrypt.hash(password, salt)],
 			(error, results) => {
 				if (error) {
 					console.log(error)
@@ -98,7 +99,7 @@ const getUser = async (req, res) => {
 		let results = await client
 			.promise()
 			.query(
-				"SELECT users.name,users.email,users.path,count(t.remarks) as this_week FROM users INNER JOIN courses ON users.puid=courses.puid INNER JOIN (SELECT * FROM chapters WHERE DATE_COMPLETED>(SELECT DATE_SUB(DATE(NOW()), INTERVAL DAYOFWEEK(NOW())-1 DAY))) AS t ON t.cid=courses.id WHERE users.puid=?",
+				"SELECT users.name,users.email,users.path,count(t.remarks) as this_week FROM users LEFT JOIN courses ON users.puid=courses.puid LEFT JOIN (SELECT * FROM chapters WHERE DATE_COMPLETED>(SELECT DATE_SUB(DATE(NOW()), INTERVAL DAYOFWEEK(NOW())-1 DAY))) AS t ON t.cid=courses.id WHERE users.puid=?",
 				[req.sess.puid]
 			)
 			.then(([rows, fields]) => {

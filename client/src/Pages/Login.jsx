@@ -9,6 +9,7 @@ import { login, registerAc, verify } from "../redux/actions/auth"
 const initialState = {
 	name: "",
 	email: "",
+	path: "",
 	password1: "",
 	password2: "",
 }
@@ -47,7 +48,7 @@ const Login = ({ register }) => {
 	return (
 		<div className="center-xy p-6 md:p-0">
 			<div className="box1">
-				<div className="flex flex-col ml-4 md:gap-2">
+				<div className="flex flex-col ml-4 md:gap-1">
 					<Logo small={false} full={true} />
 					<h1 className="text-2xl md:text-3xl font-bold text-center py-2">
 						{register ? "Register" : "Login"}
@@ -70,7 +71,16 @@ const Login = ({ register }) => {
 						labelText={"Email"}
 						handleChange={handleChange}
 					/>
-
+					{register && (
+						<FormText
+							name="path"
+							type="text"
+							labelText="Learning Path"
+							value={values.path}
+							placeholder={"eg: AI,Web,Engineering"}
+							handleChange={handleChange}
+						/>
+					)}
 					<FormText
 						name="password1"
 						type="password"

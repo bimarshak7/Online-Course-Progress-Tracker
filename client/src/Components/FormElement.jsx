@@ -7,10 +7,10 @@ const FormText = ({
 	placeholder = "",
 }) => {
 	return (
-		<div className="mb-4">
+		<div className="mb-3">
 			<label
 				htmlFor={name}
-				className="float-left mb-1 capitalize tracking-wide"
+				className="float-left capitalize tracking-wide"
 			>
 				{labelText || name}
 			</label>
