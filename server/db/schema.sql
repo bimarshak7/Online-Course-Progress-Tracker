@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS users (
   name            VARCHAR(50) NOT NULL,
   email           VARCHAR(50) NOT NULL,
   password        VARCHAR(60) NOT NULL,
-  grad_year       INT,
   path            VARCHAR(50),
   public          BOOLEAN DEFAULT 0,
   PRIMARY KEY(puid,id,email)

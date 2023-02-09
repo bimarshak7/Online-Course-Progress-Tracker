@@ -93,4 +93,27 @@ const logout = async (req, res) => {
 	return res.status(200).json({ message: "Logout Sucessful !" })
 }
 
-module.exports = { register, login, verify, logout }
+const getUser = async (req, res) => {
+	try {
+		let results = await client
+			.promise()
+			.query(
+				"SELECT users.name,users.email,users.path,count(t.remarks) as this_week FROM users INNER JOIN courses ON users.puid=courses.puid INNER JOIN (SELECT * FROM chapters WHERE DATE_COMPLETED>(SELECT DATE_SUB(DATE(NOW()), INTERVAL DAYOFWEEK(NOW())-1 DAY))) AS t ON t.cid=courses.id WHERE users.puid=?",
+				[req.sess.puid]
+			)
+			.then(([rows, fields]) => {
+				return rows
+			})
+			.catch(err => {
+				console.log(err)
+			})
+
+		if (results)
+			return res.status(200).json({ message: "success", res: results })
+	} catch (err) {
+		console.log(err)
+	}
+	return res.status(401).json({ error: "Something went wrong" })
+}
+
+module.exports = { register, login, verify, logout, getUser }
