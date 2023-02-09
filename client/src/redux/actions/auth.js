@@ -115,3 +115,24 @@ export const logout = createAsyncThunk(
 		return { isAuthenticated: false }
 	}
 )
+
+export const getUser = createAsyncThunk("auth/user", async ({ dispatch }) => {
+	const response = await axios
+		.get("/api/auth/user", {
+			withCredentials: true,
+		})
+		.then(res => {
+			return res.data
+		})
+		.catch(err => {
+			dispatch(
+				setAlert(
+					err.response?.data?.error || "Failed to load data !",
+					"danger"
+				)
+			)
+			return false
+		})
+
+	if (response) return { isAuthenticated: true, user: response.res }
+})

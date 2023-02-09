@@ -109,7 +109,7 @@ const getUser = async (req, res) => {
 			})
 
 		if (results)
-			return res.status(200).json({ message: "success", res: results })
+			return res.status(200).json({ message: "success", res: results[0] })
 	} catch (err) {
 		console.log(err)
 	}

@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS users (
   email           VARCHAR(50) NOT NULL,
   password        VARCHAR(60) NOT NULL,
   path            VARCHAR(50),
-  public          BOOLEAN DEFAULT 0,
   PRIMARY KEY(puid,id,email)
 );
 
