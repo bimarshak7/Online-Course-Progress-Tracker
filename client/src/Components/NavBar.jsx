@@ -1,11 +1,7 @@
 import { useState, useRef } from "react"
 import { useDispatch } from "react-redux"
-import { NavLink, Link } from "react-router-dom"
-import {
-	AiFillCaretDown,
-	AiOutlineSearch,
-	AiOutlineLineChart,
-} from "react-icons/ai"
+import { NavLink, Link, useMatches } from "react-router-dom"
+import { AiFillCaretDown, AiOutlineLineChart } from "react-icons/ai"
 import { GiStairsGoal } from "react-icons/gi"
 
 import { Logo } from "../Components"
@@ -16,9 +12,9 @@ const NavBar = () => {
 	const dispatch = useDispatch()
 	const ref = useRef(null)
 	const handleLogout = e => {
-		console.log("CLicked")
 		dispatch(logout(0))
 	}
+
 	return (
 		<div className="flex h-max bg-slate-900 lg:px-8 rounded py-2 mb-2">
 			<div className="w-1/2 lg:1/3">
@@ -26,10 +22,11 @@ const NavBar = () => {
 			</div>
 			<div className="flex gap-8 w-1/2 lg:1/3 text-4xl lg:text-4xl">
 				<NavLink
+					end
 					className={({ isActive }) =>
 						isActive
 							? "border-rose-700 border-b-2 px-2 py-1"
-							: "px-2"
+							: "px-2 py-1"
 					}
 					to="/home"
 				>
@@ -39,7 +36,7 @@ const NavBar = () => {
 					className={({ isActive }) =>
 						isActive
 							? "border-rose-700 border-b-2 px-2 py-1"
-							: "px-2"
+							: "px-2 py-1"
 					}
 					to="/home/report"
 				>
