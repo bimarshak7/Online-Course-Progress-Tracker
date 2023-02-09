@@ -51,6 +51,22 @@ const updateStatus = async (req, res) => {
 
 				return { success: false }
 			})
+
+		await client
+			.promise()
+			.query(
+				"UPDATE courses SET completed_on=IF(completed=1,NOW(),NULL)  where pcid=?",
+				[id]
+			)
+			.then((rows, fields) => {
+				return rows[0][0]
+			})
+			.catch(err => {
+				console.log(err)
+
+				return { success: false }
+			})
+
 		if (updated.success)
 			return res.status(200).json({
 				message: completed

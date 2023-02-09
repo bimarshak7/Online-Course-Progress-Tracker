@@ -32,8 +32,8 @@ const getReport = async (req, res) => {
 		const mostRecent = await client
 			.promise()
 			.query(
-				"SELECT name from courses WHERE  id IN(SELECT cid FROM chapters ORDER By date_completed) AND puid=? LIMIT 3;",
-				[puid, puid]
+				"SELECT name,DATE_FORMAT(completed_on,'%b %d, %Y') AS date FROM courses WHERE puid=? AND completed=1 ORDER BY completed_on DESC;",
+				[puid]
 			)
 			.then((rows, fields) => {
 				return rows[0]

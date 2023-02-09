@@ -54,28 +54,74 @@ const Report = () => {
 		},
 	}
 	return (
-		<div className="flex flex-col gap-16">
+		<div className="flex flex-col gap-8">
 			<div className="flex flex-col">
 				<h1 className="text-xl font-bold">
-					Most recently active course
+					Most recently completed course
 				</h1>
-				{report?.mostRecent.map(course => {
-					return (
-						<li className="ml-8 py-1 text-lg list-decimal">
-							{course.name}
-						</li>
-					)
-				})}
+				<div class="flex flex-col">
+					<div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+						<div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+							<div class="overflow-hidden">
+								<table class="min-w-full">
+									<thead class="font-bold border-b bg-slate-800">
+										<tr>
+											<th
+												scope="col"
+												class="text-sm px-6 py-4 text-left"
+											>
+												#
+											</th>
+											<th
+												scope="col"
+												class="px-6 py-4 text-left"
+											>
+												Course Name
+											</th>
+											<th
+												scope="col"
+												class="px-6 py-4 text-left"
+											>
+												Completed On
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										{report?.mostRecent.map(
+											(course, idx) => {
+												return (
+													<tr class="bg-gray-800 border-b transition duration-300 ease-in-out hover:bg-green-900">
+														<td class="px-6 py-4">
+															{idx + 1}
+														</td>
+														<td class=" px-6 py-4">
+															{course.name}
+														</td>
+														<td class=" px-6 py-4">
+															{course.date}
+														</td>
+													</tr>
+												)
+											}
+										)}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div className="flex gap-16">
 				<div className="flex flex-col gap-6">
-					<h1 className="text-xl">Course enrolled by category</h1>
+					<h1 className="text-xl font-semibold">
+						Course enrolled by category
+					</h1>
 					<div className="h-80 w-80 mx-auto">
 						<Pie data={data1} />
 					</div>
 				</div>
 				<div className="flex flex-col gap-6">
-					<h1 className="text-xl">
+					<h1 className="text-xl font-semibold">
 						Chapter completed in last seven days
 					</h1>
 					<div className="h-80 w-80">
