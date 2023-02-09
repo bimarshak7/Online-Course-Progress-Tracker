@@ -9,7 +9,7 @@ const courseRouter = require("./routes/course")
 const trackRouter = require("./routes/track")
 const reportRouter = require("./routes/report")
 
-const { connectDB } = require("./db/connect")
+// const { connectDB } = require("./db/connect")
 
 app.use((req, res, next) => {
 	console.log(`~ ${req.method} ${req.url}`)
@@ -38,7 +38,7 @@ const port = process.env.PORT || 5000
 
 const start = async () => {
 	try {
-		await connectDB()
+		// await connectDB()
 		app.listen(port, () => {
 			console.log(`Server is listening on port ${port}...`)
 		})

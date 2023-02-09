@@ -21,7 +21,7 @@ const CourseList = () => {
 				className="flex border border-red-800 text-white gap-2 mx-auto w-1/3 text-2xl bg-slate-900 py-2 rounded justify-center cursor-pointer"
 			>
 				<BsPlusLg className="ml-4 text-2xl my-auto" />
-				<h2>Add new course</h2>
+				<h2 className="font-head">Add new course</h2>
 			</div>
 			{show && <CourseForm setShow={setShow} />}
 			<div className="">
