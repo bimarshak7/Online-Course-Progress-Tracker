@@ -41,7 +41,7 @@ export const login = createAsyncThunk(
 				password: password1,
 			})
 			.then(res => {
-				dispatch(setAlert("res.data.message", "success"))
+				dispatch(setAlert(res.data.message, "success"))
 				return res.data
 			})
 			.catch(err => {

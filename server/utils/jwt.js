@@ -5,7 +5,7 @@ const generateToken = (data, exp) => {
 }
 
 const verifyToken = token => {
-	return (data = jwt.verify(token, process.env.JWT_SECRET))
+	return jwt.verify(token, process.env.JWT_SECRET)
 }
 
 module.exports = { generateToken, verifyToken }
