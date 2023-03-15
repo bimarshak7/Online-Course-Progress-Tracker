@@ -31,12 +31,15 @@ const CourseForm = ({ setShow }) => {
 	}
 
 	const onSubmit = e => {
-		console.log("Submitted", prop)
 		const { name, category, chapters } = prop
+		console.log("len", chapters.length)
 		if (name && category && chapters) {
 			dispatch(addCourse(prop))
 			setShow(false)
 			setProp(initState)
+		} else if (chapters.length === 0) {
+			dispatch(setAlert("At least one chapter is needed.", "danger"))
+			return
 		} else {
 			dispatch(setAlert("One or more field is missing!", "danger"))
 		}
