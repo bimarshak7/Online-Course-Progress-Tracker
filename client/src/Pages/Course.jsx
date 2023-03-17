@@ -125,7 +125,7 @@ const Course = () => {
 									},
 								})
 							}
-							value={change.course.name}
+							value={change?.course?.name}
 						/>
 					) : change.course ? (
 						change.course.name
@@ -169,7 +169,7 @@ const Course = () => {
 									},
 								})
 							}
-							value={change.course.category}
+							value={change?.course?.category}
 							className="bg-blue-900 h-8 my-auto px-2 w-24 rounded-"
 						/>
 					) : change.course ? (
