@@ -29,7 +29,7 @@ const register = async (req, res) => {
 		const salt = await bcrypt.genSalt(10)
 
 		client.query(
-			"INSERT INTO users (name, email,path,password) VALUES (?, ?, ?,?) RETURNING *",
+			"INSERT INTO users (name, email,path,password) VALUES (?, ?, ?,?)",
 			[name, email, path, await bcrypt.hash(password, salt)],
 			(error, results) => {
 				if (error) {
@@ -99,7 +99,7 @@ const getUser = async (req, res) => {
 		let results = await client
 			.promise()
 			.query(
-				"SELECT users.name,users.email,users.path,count(t.remarks) as this_week FROM users LEFT JOIN courses ON users.puid=courses.puid LEFT JOIN (SELECT * FROM chapters WHERE DATE_COMPLETED>(SELECT DATE_SUB(DATE(NOW()), INTERVAL DAYOFWEEK(NOW())-1 DAY))) AS t ON t.cid=courses.id WHERE users.puid=?",
+				"SELECT users.name,users.email,users.path,count(t.remarks) as this_week FROM users LEFT JOIN courses ON users.puid=courses.puid LEFT JOIN (SELECT * FROM chapters WHERE DATE_COMPLETED>(SELECT DATE_SUB(DATE(NOW()), INTERVAL DAYOFWEEK(NOW())-1 DAY))) AS t ON t.cid=courses.id WHERE users.puid=?  GROUP BY users.name, users.email, users.path",
 				[req.sess.puid]
 			)
 			.then(([rows, fields]) => {

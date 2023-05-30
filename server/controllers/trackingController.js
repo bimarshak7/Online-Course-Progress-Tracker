@@ -28,7 +28,7 @@ const updateStatus = async (req, res) => {
 			updated = await client
 				.promise()
 				.query(
-					"UPDATE courses SET completed = IF((SELECT COUNT(*) FROM chapters where completed=0 AND cid=(SELECT id from courses where pcid=?))>0,0,1) where pcid=?",
+					"UPDATE courses SET completed = IF((SELECT COUNT(*) FROM chapters where completed=0 AND cid=(SELECT id from (select * from courses) as t1 where pcid=?))>0,0,1) where pcid=?",
 					[id, id]
 				)
 				.then((rows, fields) => {
