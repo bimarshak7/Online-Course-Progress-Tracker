@@ -95,7 +95,6 @@ export const verify = createAsyncThunk(
 export const logout = createAsyncThunk(
 	"auth/logout",
 	async ({}, { dispatch }) => {
-		console.log("Logout action")
 		const response = await axios
 			.get("/api/auth/logout", {
 				withCredentials: true,

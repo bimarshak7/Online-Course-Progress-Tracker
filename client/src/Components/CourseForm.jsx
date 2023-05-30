@@ -24,7 +24,6 @@ const CourseForm = ({ setShow }) => {
 	}
 
 	const handleChapters = (e, idx) => {
-		console.log(idx, e.target.name, e.target.value)
 		let update = [...prop.chapters]
 		update[idx][e.target.name] = e.target.value
 		setProp({ ...prop, chapters: update })
@@ -32,7 +31,6 @@ const CourseForm = ({ setShow }) => {
 
 	const onSubmit = e => {
 		const { name, category, chapters } = prop
-		console.log("len", chapters.length)
 		if (name && category && chapters) {
 			dispatch(addCourse(prop))
 			setShow(false)

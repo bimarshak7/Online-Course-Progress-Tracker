@@ -23,7 +23,6 @@ const Report = () => {
 				},${Math.random() * (255 - 0)})`
 			)
 		}
-		console.log(a)
 		return a
 	}
 

@@ -33,7 +33,6 @@ const courseSlice = createSlice({
 			}
 		})
 		builder.addCase(updateCourse.fulfilled, (state, { payload }) => {
-			console.log(payload)
 			state.singleCourse.course.completed = payload.data.congrats ? 1 : 0
 
 			if (payload?.chNo != 0)

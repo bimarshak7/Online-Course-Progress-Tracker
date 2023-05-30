@@ -80,6 +80,7 @@ const Course = () => {
 	const handleSave = () => {
 		dispatch(editCourse({ change, id }))
 		setChange({ chapters: {} })
+		setEdit({ course: false, ch: 0 })
 	}
 	const UpdateIc = ({ chNo }) => {
 		if (course.course.completed)

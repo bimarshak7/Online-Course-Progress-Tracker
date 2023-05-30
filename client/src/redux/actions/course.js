@@ -8,7 +8,6 @@ import { getUser } from "./auth"
 export const addCourse = createAsyncThunk(
 	"course/add",
 	async ({ name, category, chapters }, { dispatch }) => {
-		console.log(name, category, chapters)
 		const response = await axios
 			.post(`/api/course/add`, {
 				name: name,
@@ -115,7 +114,6 @@ export const deleteCourse = createAsyncThunk(
 export const updateCourse = createAsyncThunk(
 	"course/update",
 	async ({ id, chNo }, { dispatch }) => {
-		console.log(id, chNo)
 		const response = await axios
 			.put(`/api/track/?id=${id}`, { chNo: chNo })
 			.then(res => {
@@ -142,7 +140,6 @@ export const updateCourse = createAsyncThunk(
 export const editCourse = createAsyncThunk(
 	"course/edit",
 	async (data, { dispatch }) => {
-		console.log("lol")
 		let { course, chapters } = data.change
 
 		const response = await axios
