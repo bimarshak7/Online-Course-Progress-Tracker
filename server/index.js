@@ -1,4 +1,5 @@
 const express = require("express")
+const path = require("path")
 const cookieParser = require("cookie-parser")
 require("dotenv").config()
 
@@ -25,14 +26,21 @@ app.use(
 
 app.use(cookieParser())
 
-app.get("/", (req, res) => {
-	res.send("Welcome!")
-})
+// app.get("/", (req, res) => {
+// 	res.send("Welcome!")
+// })
 
 app.use("/api/auth", authRouter)
 app.use("/api/course", courseRouter)
 app.use("/api/track", trackRouter)
 app.use("/api/report", reportRouter)
+app.use(express.static(path.resolve(__dirname, "./dist")))
+
+app.all("*", (_req, res) => {
+	if (process.env.NODE_ENV === "production")
+		return res.sendFile(path.resolve(__dirname, "./dist/index.html"))
+	return res.status(404).json({ error: "Url Not found" })
+})
 
 const port = process.env.PORT || 5000
 

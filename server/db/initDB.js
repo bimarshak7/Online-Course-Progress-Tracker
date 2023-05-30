@@ -2,8 +2,9 @@ const fs = require("fs")
 const mysql = require("mysql2")
 
 // const { client } = require("./connect")
-require("dotenv").config({ path: "../.env" })
+require("dotenv").config({ path: "../../.env" })
 
+console.log("\n ENVs:: ", process.env)
 const client = mysql.createConnection({
 	user: process.env.DBUSER,
 	password: process.env.DBPASSWORD,
@@ -15,7 +16,7 @@ const client = mysql.createConnection({
 
 async function initDB() {
 	// client.connect()
-	let sql = fs.readFileSync("schema.sql", "utf8")
+	let sql = fs.readFileSync("./db/schema.sql", "utf8")
 
 	const res = await client
 		.promise()
