@@ -83,7 +83,7 @@ const Course = () => {
 		setEdit({ course: false, ch: 0 })
 	}
 	const UpdateIc = ({ chNo }) => {
-		if (course.course.completed)
+		if (course?.chapters[chNo - 1]?.completed)
 			return (
 				<BiRecycle
 					className="cursor-pointer  hover:text-cyan-400"
